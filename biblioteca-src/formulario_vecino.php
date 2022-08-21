@@ -88,48 +88,57 @@
                                 <h4 class="my-0 fw-normal">Ingresa tus datos</h4>
                             </div>
                             <div class="card-body">
-                                <form action="formulario_vecino.php" method="post" id="formMain" enctype="multipart/form-data">
+                                <form action="formulario_vecino.php" method="post" id="form" enctype="multipart/form-data">
                                     <div class="mb-3 form-group">
                                         <label for="">Rut</label>
-                                        <input type="text" name="rut" id="rut" oninput="checkRut(this) " class="form-control" maxlength="10" required>
-                                        <div id="respuesta"> </div>
+                                        <input type="text" name="rut" id="rut" oninput="checkRut(this) " class="form-control" maxlength="10">
+                                        <p id="respuesta" class="text-danger"> </p>
+                                        <p id="cedula" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="">Nombre</label>
-                                        <input type="text" name="nombre" id="nombre" class="form-control" required>
+                                        <input type="text" name="nombre" id="nombre" class="form-control" >
+                                        <p id="nom" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="">Apellido Paterno</label>
-                                        <input type="text" name="a_paterno" id="a_paterno" class="form-control" required>
+                                        <input type="text" name="a_paterno" id="a_paterno" class="form-control" >
+                                        <p id="p_apellido" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="">Apellido Materno</label>
-                                        <input type="text" name="a_materno" id="a_materno" class="form-control" required>
+                                        <input type="text" name="a_materno" id="a_materno" class="form-control" >
+                                        <p id="s_apellido" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="">Correo</label>
-                                        <input type="email" name="correo" id="correo" class="form-control" placeholder="example@gmail.com" required>
+                                        <input type="email" name="correo" id="correo" class="form-control" placeholder="example@gmail.com" >
+                                        <p id="email" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="">Dirección</label>
-                                        <input type="text" name="direccion" id="direccion" class="form-control" required>
+                                        <input type="text" name="direccion" id="direccion" class="form-control" >
+                                        <p id="direc" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="">Fono</label>
-                                        <input type="number" name="fono" id="fono" class="form-control" min="1" max="99999999" required>
+                                        <input type="number" name="fono" id="fono" class="form-control" min="1" max="99999999" >
+                                        <p id="fon" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="">Contraseña</label>
-                                        <input type="password" name="contrasena" id="contrasena" class="form-control" required>
+                                        <input type="password" name="contrasena" id="contrasena" class="form-control" >
+                                        <p id="contra" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="">Confirmar contraseña</label>
-                                        <input type="password" id="confirmar_contrasena" class="form-control" required>
+                                        <input type="password" id="confirmar_contrasena" class="form-control" >
                                         <p id="err" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3">
                                         <label for="formFile" class="form-label">Subir comprobante de pago</label>
-                                        <input class="form-control" name="imagen" type="file" id="formFile" required>
+                                        <input class="form-control" name="imagen" type="file" id="formFile" >
+                                        <p id="compro" class="text-danger"> </p>
                                     </div>
                                     <input type="hidden" name="estado" value="pendiente">
                                     <input type="hidden" name="id_membresia" value="<?php echo $membresia ?>">
@@ -150,15 +159,15 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="static/assets/demo/chart-area-demo.js"></script>
         <script src="static/assets/demo/chart-bar-demo.js"></script>
+        <script src="static/js/validar_formulario.js"></script>
         <script src="static/js/rut.js"></script>
-        <script src="static/js/validar_contrasenas.js"></script>
+        <!-- <script src="static/js/validar_contrasenas.js"></script> -->
         <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <script>
 
             $("#rut").on("keyup", function() {
                 var cedula = $("#rut").val(); //CAPTURANDO EL VALOR DE INPUT CON ID CEDULA
                 var longitudCedula = $("#rut").val().length; //CUENTO LONGITUD
-                console.log(cedula);
                 //Valido la longitud 
                 if(longitudCedula >= 5){
                     var dataString = 'cedula=' + cedula;
@@ -172,12 +181,10 @@
                         success: function(datos){
                             
                             if( datos.success == 1){
-                                console.log('holi');
                                 $("#respuesta").html(datos.message);
 
 
                             }else if(datos.success == 0){
-                                console.log('holo');
                                 $("#respuesta").html(datos.message);
 
                             }
@@ -185,6 +192,11 @@
                     });
                 }
             });
+
+		    // $('#form').on('submit', function (event) {
+   	        //   	event.preventDefault();
+		    // });
+		
         </script>
 </body>
 

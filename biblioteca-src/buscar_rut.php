@@ -12,7 +12,7 @@ $totalCliente  = mysqli_num_rows($query);
   //Validamos que la consulta haya retornado información
   if( $totalCliente <= 0 ){
     $jsonData['success'] = 0;
-    $jsonData['message'] = 'No existe Cédula ' .$rut;
+    $jsonData['message'] = '';
     //$jsonData['message'] = '';
 } else{
     //Si hay datos entonces retornas algo
