@@ -112,7 +112,7 @@
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="">Correo</label>
-                                        <input type="email" name="correo" id="correo" class="form-control" placeholder="example@gmail.com" >
+                                        <input type="text" name="correo" id="correo" class="form-control" placeholder="example@gmail.com" >
                                         <p id="email" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3 form-group">
@@ -122,7 +122,7 @@
                                     </div>
                                     <div class="mb-3 form-group">
                                         <label for="">Fono</label>
-                                        <input type="number" name="fono" id="fono" class="form-control" min="1" max="99999999" >
+                                        <input type="number" name="fono" id="fono" class="form-control" min="1" >
                                         <p id="fon" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3 form-group">

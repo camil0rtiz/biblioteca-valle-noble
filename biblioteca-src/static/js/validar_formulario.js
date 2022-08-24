@@ -49,25 +49,37 @@ const validar = () =>{
 
     if(nombrevalue === ''){
         errorNombre('Nombre es requerido');
-    }else{
+    }else if(validarInput(nombrevalue)){
+        errorNombre('Ingrese solo letras');
+    }
+    else{
         formIsValid.nombre = true
     } 
 
     if(primapellidovalue == ''){
         errorPriApellido('Primer apellido es requerido');
-    }else{
+    }else if(validarInput(primapellidovalue)){
+        errorPriApellido('Ingrese solo letras');
+    }
+    else{
         formIsValid.primer_apellido = true
     } 
 
     if(segapellidovalue == ''){
         errorSeApellido('Segundo apellido es requerido');
-    }else{
+    }else if(validarInput(segapellidovalue)){
+        errorSeApellido('Ingrese solo letras');
+    }
+    else{
         formIsValid.segundo_apellido = true
     } 
 
     if(correovalue === '') {
         correoError('Email es requerido');
-    }else{
+    }else if(isValidEmail(correovalue) == false){
+        correoError('Email no es valido');
+    }
+    else{
         formIsValid.correo = true
     } 
 
@@ -79,7 +91,10 @@ const validar = () =>{
 
     if(fonovalue == ''){
         errorFono('Telefono es requerido');
-    }else{
+    }else if(fonovalue.length !== 9){
+        errorFono('Telefono debe llevar 9 digitos');
+    }
+    else{
         formIsValid.fono = true
     } 
 
@@ -202,16 +217,32 @@ const comprobanteError = (message) => {
     compro.innerHTML = message
 }
 
-// const isValidEmail = email => {
-//     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-//     return re.test(String(email).toLowerCase());
-// }
+const isValidEmail = email => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    
+    return re.test(String(email).toLowerCase());
+}
 
 const validateForm = () => {
     const formValue = Object.values(formIsValid);
     const valid = formValue.findIndex(value=> value == false);
-    console.log(valid);
+
     if(valid == -1) {
         form.submit();
     }
 }
+
+const validarInput = (text) =>{
+    patron = /[0-9@]/;
+    return patron.test(text);
+}
+
+// const validarInput2 = (text) =>{
+//     patron = /[0-9@]/;
+//     return patron.test(text);
+// }
+
+// const validarInput3 = (text) =>{
+//     patron = /[0-9@]/;
+//     return patron.test(text);
+// }
