@@ -137,12 +137,12 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="formFile" class="form-label">Subir comprobante de pago</label>
-                                        <input class="form-control" name="imagen" type="file" id="formFile" >
+                                        <input class="form-control" name="imagen" id='imagen' type="file" id="formFile" >
                                         <p id="compro" class="text-danger"> </p>
                                     </div>
                                     <input type="hidden" name="estado" value="pendiente">
                                     <input type="hidden" name="id_membresia" value="<?php echo $membresia ?>">
-                                    <button type="submit" name="registro" class="w-100 btn btn-lg btn-outline-primary">Registrar</button>
+                                    <button type="submit" name="registro" id='registro' class="w-100 btn btn-lg btn-outline-primary">Registrar</button>
                                     <a type="button" href="index.php" name="atras" class="w-100 btn btn-lg btn-outline-danger mt-2">Atrás</a>
                                 </form>
                             </div>
@@ -161,7 +161,6 @@
         <script src="static/assets/demo/chart-bar-demo.js"></script>
         <script src="static/js/validar_formulario.js"></script>
         <script src="static/js/rut.js"></script>
-        <!-- <script src="static/js/validar_contrasenas.js"></script> -->
         <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <script>
 
@@ -182,20 +181,37 @@
                             
                             if( datos.success == 1){
                                 $("#respuesta").html(datos.message);
-
-
+                                $("#nombre").attr("disabled",true);
+                                $("#nombre").attr('value', datos.vecino.nombre);
+                                //$("#nombre").attr('value', datos.vecino.rut);
+                                //$("#nombre").attr('value', datos.vecino.rut);
+                                //$("#nombre").attr('value', datos.vecino.rut);
+                                //$("#nombre").attr('value', datos.vecino.rut);
+                        
                             }else if(datos.success == 0){
-                                $("#respuesta").html(datos.message);
 
+                                $("#respuesta").html(datos.message);
+                                $("#nombre").attr("disabled",false);
+                                $("#nombre").attr("value",' ');
+
+                            }else if(datos.success == 2){
+                                $("#respuesta").html(datos.message);
+                                $("#nombre").attr("disabled",true);
+                                $("#a_paterno").attr("disabled",true);
+                                $("#a_materno").attr("disabled",true);
+                                $("#correo").attr("disabled",true);
+                                $("#direccion").attr("disabled",true);
+                                $("#fono").attr("disabled",true);
+                                $("#contrasena").attr("disabled",true);
+                                $("#confirmar_contrasena").attr("disabled",true);
+                                $("#imagen").attr("disabled",true);
+                                $("#registro").attr("disabled",true);
                             }
                         }
                     });
                 }
             });
 
-		    // $('#form').on('submit', function (event) {
-   	        //   	event.preventDefault();
-		    // });
 		
         </script>
 </body>
