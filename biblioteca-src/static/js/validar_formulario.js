@@ -232,7 +232,7 @@ const isValidEmail = email => {
 const validateForm = () => {
     const formValue = Object.values(formIsValid);
     const valid = formValue.findIndex(value=> value == false);
-
+    console.log(formValue.findIndex(value=> value == false));
     if(valid == -1) {
         form.submit();
     }
