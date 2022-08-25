@@ -84,15 +84,18 @@ const validar = () =>{
     } 
 
     if(direccionvalue == ''){
-        errorDireccion('Direccion es requerida');
+        errorDireccion('Dirección es requerida');
     }else{
         formIsValid.direccion = true
     } 
 
     if(fonovalue == ''){
-        errorFono('Telefono es requerido');
+        errorFono('Teléfono es requerido');
     }else if(fonovalue.length !== 9){
-        errorFono('Telefono debe llevar 9 digitos');
+        errorFono('Teléfono debe llevar 9 digitos');
+    }
+    else if(validarNumTele(fonovalue) == false){
+        errorFono('Número de teléfono no es valido');
     }
     else{
         formIsValid.fono = true
@@ -114,7 +117,10 @@ const validar = () =>{
 
     if(comprobantevalue == ''){
         comprobanteError('Comprobante es requerido');
-    }else{
+    }else if(validarExtension(comprobantevalue) == false){
+        comprobanteError('Extension no permitida');
+    }
+    else{
         formIsValid.comprobante = true
     } 
 }
@@ -237,12 +243,23 @@ const validarInput = (text) =>{
     return patron.test(text);
 }
 
-// const validarInput2 = (text) =>{
-//     patron = /[0-9@]/;
-//     return patron.test(text);
-// }
+const validarExtension = archivo => {
 
-// const validarInput3 = (text) =>{
-//     patron = /[0-9@]/;
-//     return patron.test(text);
-// }
+    const extPermitidas = /(.jpeg|.pdf)$/i;
+
+    if(!extPermitidas.exec(archivo)){
+        return false;
+    }
+    else{
+        return true;
+    }
+
+}
+
+const validarNumTele = numero => {
+
+    const numeroPermitido = /^(\+?56)?(\s?)(0?9)(\s?)[98765432]\d{7}$/
+
+    return numeroPermitido.test(String(numero).toLowerCase());    
+
+} 
