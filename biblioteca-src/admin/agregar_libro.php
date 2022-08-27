@@ -11,12 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $autor = $_POST['autor_libro'];
         $img_libro = ""; //$_FILES['direccion'];
 
-        /*if (registrar_vecino($rut, $nombre, $a_paterno, $a_materno, $correo, $direccion, $fono, $contrasena, $id_membresia, $estado,null,null)  == 1) {
-            header('Location: guardar_vecino.php?msg=1');
+        if (agregar_libro($titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro) == 1) {
+            header('Location: agregar_libro.php?msg=1');
         } else {
-            //header('Location:guardar_vecino.php');
+            header('Location: agregar_libro.php?msg=0');
         }
-        */
+        
     }
 }
 ?>
@@ -98,6 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="mb-3 form-group">
                                 <label for="">ISBN</label>
                                 <input type="text" name="isbn_libro" id="a_paterno" class="form-control" placeholder="Ej. 978-956-11-2987-0" required>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="">Dewey (completo)</label>
+                                <input type="text" name="dewey_libro" id="a_paterno" class="form-control" placeholder="Ej. 978-956-11-2987-0" required>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Autor</label>
