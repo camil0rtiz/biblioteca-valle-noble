@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                             <div class="modal fade" id="exampleModal<?php echo $vecino['id_usuario']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-lg">
                                                     <div class="modal-content">
-                                                    <form action="" method="post">
+                                                    <form action="" method="post"  id="form">
                                                         <div class="modal-header">
                                                             <h5 class="modal-title" id="exampleModalLabel">Editar Vecino</h5>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -105,27 +105,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                             <input type="hidden" name="id" id="id" class="form-control" value="<?php echo $vecino['id_usuario']; ?>" required>
                                                             <div class="mb-3 form-group">
                                                                 <label for="">Nombre</label>
-                                                                <input type="text" name="nombre" id="nombre" class="form-control" value="<?php echo $vecino['nombre']; ?>" required>
+                                                                <input type="text" name="nombre" id="nombre" class="form-control" value="<?php echo $vecino['nombre']; ?>" >
+                                                                <p id="nom" class="text-danger"> </p>
                                                             </div>
                                                             <div class="mb-3 form-group">
                                                                 <label for="">Apellido Paterno</label>
-                                                                <input type="text" name="a_paterno" id="a_paterno" class="form-control" value="<?php echo $vecino['apellido_paterno'] ?>" required>
+                                                                <input type="text" name="a_paterno" id="a_paterno" class="form-control" value="<?php echo $vecino['apellido_paterno'] ?>" >
+                                                                <p id="p_apellido" class="text-danger"> </p>
                                                             </div>
                                                             <div class="mb-3 form-group">
                                                                 <label for="">Apellido Materno</label>
-                                                                <input type="text" name="a_materno" id="a_materno" class="form-control" value="<?php echo $vecino['apellido_materno'] ?>" required>
+                                                                <input type="text" name="a_materno" id="a_materno" class="form-control" value="<?php echo $vecino['apellido_materno'] ?>" >
+                                                                <p id="s_apellido" class="text-danger"> </p>
                                                             </div>
                                                             <div class="mb-3 form-group">
                                                                 <label for="">Correo</label>
-                                                                <input type="email" name="correo" id="correo" class="form-control" value="<?php echo $vecino['correo']; ?>" required>
+                                                                <input type="email" name="correo" id="correo" class="form-control" value="<?php echo $vecino['correo']; ?>" >
+                                                                <p id="email" class="text-danger"> </p>
                                                             </div>
                                                             <div class="mb-3 form-group">
                                                                 <label for="">Dirección</label>
-                                                                <input type="text" name="direccion" id="direccion" class="form-control" value="<?php echo $vecino['direccion']; ?>" required>
+                                                                <input type="text" name="direccion" id="direccion" class="form-control" value="<?php echo $vecino['direccion']; ?>" >
+                                                                <p id="direc" class="text-danger"> </p>
                                                             </div>
                                                             <div class="mb-3 form-group">
                                                                 <label for="">Fono</label>
-                                                                <input type="number" name="fono" id="fono" class="form-control" value="<?php echo $vecino['telefono']; ?>" min="1" required>
+                                                                <input type="number" name="fono" id="fono" class="form-control" value="<?php echo $vecino['telefono']; ?>" min="1">
+                                                                <p id="fon" class="text-danger"> </p>
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer"> 
@@ -168,6 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script src="../static/js/validar_editar.js"></script>
     <script type="text/javascript">
         $(document).ready( function () {
             $('#datatablesSimple').DataTable({
