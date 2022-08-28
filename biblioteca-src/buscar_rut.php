@@ -17,12 +17,12 @@ $vecino = mysqli_fetch_all($query, MYSQLI_ASSOC);
     $jsonData['success'] = 0;
     $jsonData['message'] = '';
     //$jsonData['message'] = '';
-}else if($vecino[0]['estado'] == 'habilitado'){
+  }else if($vecino[0]['estado'] == 'habilitado'){
 
     $jsonData['success'] = 2;
     $jsonData['message'] = '<p style="color:red;">Su cuenta aún esta vigente <strong>(' .$rut.')<strong></p>';
 
-} else{
+  } else{
     //Si hay datos entonces retornas algo
     $jsonData['success'] = 1;
     $jsonData['vecino'] = $vecino[0];

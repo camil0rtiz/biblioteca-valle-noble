@@ -92,7 +92,8 @@
                                 <form action="formulario_vecino.php" method="post" id="form" enctype="multipart/form-data">
                                     <div class="mb-3 form-group">
                                         <label for="">Rut</label>
-                                        <input type="text" name="rut" id="rut" oninput="checkRut(this) " class="form-control" maxlength="10">
+                                        <input type="text" name="rut" id="rut" class="form-control" maxlength="10">
+                                        <!-- <input type="text" name="rut" id="rut" oninput="checkRut(this) " class="form-control" maxlength="10"> -->
                                         <p id="respuesta" class="text-danger"> </p>
                                         <p id="cedula" class="text-danger"> </p>
                                     </div>
@@ -161,7 +162,7 @@
         <script src="static/assets/demo/chart-area-demo.js"></script>
         <script src="static/assets/demo/chart-bar-demo.js"></script>
         <script src="static/js/validar_formulario.js"></script> -->
-        <script src="static/js/rut.js"></script>
+        <!-- <script src="static/js/rut.js"></script> -->
         <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <script>
 
@@ -196,6 +197,7 @@
 
                                 $("#respuesta").html(datos.message);
                                 $("#nombre").attr("disabled",false);
+                                $("#nombre").attr('value', '');
                                 
 
                             }else if(datos.success == 2){
