@@ -139,10 +139,10 @@
                             <p class="text-muted fs-mini">Categorias:</p>
                             <select class="form-select" aria-label="Default select example" onchange="location = this.value;">
                                 <option selected disabled hidden select>Seleccione</option>
-                                <option value="?cat=0&titulo='.$titulo.'">Todas</option>
+                                <option value="?cat=-1&titulo='.$titulo.'">Todas</option>
                                 ';
                                 foreach($categorias as $categoria){
-                                    echo '<option value="?cat='.$categoria[0].'&titulo='.$titulo.'">'.$categoria[1].'</option>\n';
+                                    echo '<option value="?cat='.$categoria[1].'&titulo='.$titulo.'">'.$categoria[2].'</option>\n';
                                 }
                     echo '
                         </select>
@@ -189,10 +189,10 @@
                             <p class="text-muted fs-mini">Categorias:</p>
                             <select class="form-select" aria-label="Default select example" onchange="location = this.value;">
                                 <option selected disabled hidden>Seleccione</option>
-                                <option value="?cat=0&titulo='.$titulo.'">Todas</option>
+                                <option value="?cat=-1&titulo='.$titulo.'">Todas</option>
                                 ';
                                 foreach($categorias as $categoria){
-                                    echo '<option value="?cat='.$categoria[0].'&titulo='.$titulo.'">'.$categoria[1].'</option>\n';
+                                    echo '<option value="?cat='.$categoria[1].'&titulo='.$titulo.'">'.$categoria[2].'</option>\n';
                                 }
                     echo '
                         </select>
@@ -235,10 +235,10 @@
                             <p class="text-muted fs-mini">Categorias:</p>
                             <select class="form-select" aria-label="Default select example" onchange="location = this.value;">
                                 <option selected disabled hidden select>Seleccione</option>
-                                <option value="?cat=0">Todas</option>
+                                <option value="?cat=-1">Todas</option>
                                 ';
                                 foreach($categorias as $categoria){
-                                    echo '<option value="?cat='.$categoria[0].'">'.$categoria[1].'</option>\n';
+                                    echo '<option value="?cat='.$categoria[1].'">'.$categoria[2].'</option>\n';
                                 }
                     echo '
                         </select>
@@ -276,7 +276,7 @@
                     }
 
                     if (isset($_GET['cat']) && !isset($_GET['titulo'])){
-                        if ($_GET['cat'] == 0){
+                        if ($_GET['cat'] == -1){
                             $libros = listar_libros();
                         }
                         else{
@@ -288,10 +288,10 @@
                             <p class="text-muted fs-mini">Categorias:</p>
                             <select class="form-select" aria-label="Default select example" onchange="location = this.value;">
                                 <option selected disabled hidden select>Seleccione</option>
-                                <option value="?cat=0">Todas</option>
+                                <option value="?cat=-1">Todas</option>
                                 ';
                                 foreach($categorias as $categoria){
-                                    echo '<option value="?cat='.$categoria[0].'">'.$categoria[1].'</option>\n';
+                                    echo '<option value="?cat='.$categoria[1].'">'.$categoria[2].'</option>\n';
                                 }
                     echo '
                         </select>
