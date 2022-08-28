@@ -4,7 +4,7 @@
 /*funcion para listar todo el catalogo de libros */
 function listar_libros(){
     include 'db.php';
-    $sql_query = "SELECT titulo_libro, autor_libro, stock FROM libro;";
+    $sql_query = "SELECT titulo_libro, autor_libro, dewey, isbn, stock FROM libro;";
     $stmt = $conn->prepare($sql_query);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -249,4 +249,27 @@ function membresia_vencida($id){
     $stmt->close();
     return 1;
 
+}
+
+
+function agregar_libro($titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro){
+    include 'db.php';
+    $sql_query = "INSERT INTO libro(titulo_libro, autor_libro, isbn, stock, dewey, foto_portada) VALUES (?,?,?,?,?,?);";
+    $stmt = $conn->prepare($sql_query);
+    $stmt->bind_param('ssissss', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $img_libro);
+    $stmt->execute();
+    $stmt->close();
+    $conn->close();
+    return 1;
+}
+
+function editar_libro($id_libro, $titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro){
+    include 'db.php';
+    $sql_query = "UPDATE libro SET titulo_libro = ?, autor_libro = ?, isbn = ?, stock = ?, dewey = ?, foto_portada = ? WHERE id_libro = ?;";
+    $stmt = $conn->prepare($sql_query);
+    $stmt->bind_param('sssisss', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $img_libro, $id_libro);
+    $stmt->execute();
+    $stmt->close();
+    $conn->close();
+    return 1;
 }
