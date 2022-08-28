@@ -55,17 +55,17 @@ function listar_categorias(){
 }
 
 /* funcion para listar libros buscados por titulo pero por categoria */
-function listar_libros_by_categoria($id_categoria, $titulo){
+function listar_libros_by_categoria($cod_dewey, $titulo){
     include 'db.php';
     //$sql_query = "SELECT * FROM libro, tiene, categoria WHERE categoria.id_categoria = tiene.id_categoria AND tiene.id_libro = libro.id_libro AND libro.titulo_libro LIKE '%?%';";
-    if ($id_categoria == 0){
+    if ($cod_dewey == -1){
         $todo_by_termino = buscar_libro($titulo);
         return $todo_by_termino;// Retorna todos los libros
     }
     else {
-        $sql_query = "SELECT titulo_libro, autor_libro, stock FROM libro, tiene, categoria WHERE categoria.id_categoria = ? AND categoria.id_categoria = tiene.id_categoria AND tiene.id_libro = libro.id_libro AND libro.titulo_libro LIKE CONCAT('%',?,'%');";
+        $sql_query = "SELECT titulo_libro, autor_libro, stock FROM libro, tiene, categoria WHERE categoria.cod_dewey = ? AND categoria.cod_dewey = tiene.cod_dewey AND tiene.id_libro = libro.id_libro AND libro.titulo_libro LIKE CONCAT('%',?,'%');";
         $stmt = $conn->prepare($sql_query);
-        $stmt->bind_param('is', $id_categoria, $titulo);
+        $stmt->bind_param('is', $cod_dewey, $titulo);
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_all();
