@@ -90,58 +90,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <td><?php echo $vecino['telefono']; ?></td>
                                         <td><?php echo $vecino['correo']; ?></td>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $vecino['id_usuario']; ?>">
-                                                Editar
-                                            </button>
-                                            <div class="modal fade" id="exampleModal<?php echo $vecino['id_usuario']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg">
-                                                    <div class="modal-content">
-                                                    <form action="" method="post"  id="form">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Editar Vecino</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <input type="hidden" name="id" id="id" class="form-control" value="<?php echo $vecino['id_usuario']; ?>" required>
-                                                            <div class="mb-3 form-group">
-                                                                <label for="">Nombre</label>
-                                                                <input type="text" name="nombre" id="nombre" class="form-control" value="<?php echo $vecino['nombre']; ?>" >
-                                                                <p id="nom" class="text-danger"> </p>
-                                                            </div>
-                                                            <div class="mb-3 form-group">
-                                                                <label for="">Apellido Paterno</label>
-                                                                <input type="text" name="a_paterno" id="a_paterno" class="form-control" value="<?php echo $vecino['apellido_paterno'] ?>" >
-                                                                <p id="p_apellido" class="text-danger"> </p>
-                                                            </div>
-                                                            <div class="mb-3 form-group">
-                                                                <label for="">Apellido Materno</label>
-                                                                <input type="text" name="a_materno" id="a_materno" class="form-control" value="<?php echo $vecino['apellido_materno'] ?>" >
-                                                                <p id="s_apellido" class="text-danger"> </p>
-                                                            </div>
-                                                            <div class="mb-3 form-group">
-                                                                <label for="">Correo</label>
-                                                                <input type="email" name="correo" id="correo" class="form-control" value="<?php echo $vecino['correo']; ?>" >
-                                                                <p id="email" class="text-danger"> </p>
-                                                            </div>
-                                                            <div class="mb-3 form-group">
-                                                                <label for="">Dirección</label>
-                                                                <input type="text" name="direccion" id="direccion" class="form-control" value="<?php echo $vecino['direccion']; ?>" >
-                                                                <p id="direc" class="text-danger"> </p>
-                                                            </div>
-                                                            <div class="mb-3 form-group">
-                                                                <label for="">Fono</label>
-                                                                <input type="number" name="fono" id="fono" class="form-control" value="<?php echo $vecino['telefono']; ?>" min="1">
-                                                                <p id="fon" class="text-danger"> </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer"> 
-                                                            <input type="submit" class="btn btn-primary" value="Guardar">
-                                                            <!-- <button type=" button" class="btn btn-secondary" data-bs-dismiss="modal"">Cerrar</button> -->
-                                                        </div>
-                                                    </form>       
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <a type="button" href="actualizar_vecino.php?id=<?php echo $vecino['id_usuario'];?> & nombre=<?php echo $vecino['nombre'];?> 
+                                        & ape_pa=<?php echo $vecino['apellido_paterno'];?> & ape_ma=<?php echo $vecino['apellido_materno'];?>
+                                        & direc=<?php echo $vecino['direccion'];?> & fono=<?php echo $vecino['telefono']; ?> & correo=<?php echo $vecino['correo']; ?>"
+                                        name="registro" class="btn btn-primary">Actualizar vecino</a>
                                         </td>
                                     </tr>
                                 <?php

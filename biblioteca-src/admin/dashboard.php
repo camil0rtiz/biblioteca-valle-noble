@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                         Vecinos para habilitar
                     </div>
                     <div class="card-body">
-                        <table id="datatablesSimple" class="table display responsive nowrap" style="width:100%">
+                        <table id="datatablesSimple" class="table display" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Rut</th>
@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 <div class="card mt-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        Suscripciones por vencer
+                        Suscripciones vencidas
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple1" class="table display responsive nowrap" style="width:100%">
@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                     <th>Nombre</th>
                                     <th>Tiempo</th>
                                     <th>Correo</th>
-                                    <th>Notificar</th>
+                                    <th>Renovar membresia</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                     <td>Mariah Maciachian</td>
                                     <td>72 horas (3 días)</td>
                                     <td>patata@gmail.com</td>
-                                    <td><button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fa-solid fa-bell"></i></button></td>
+                                    <td><button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fa-solid fa-bell"></i>Renovar</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -189,6 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script src="sweetalert2.all.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#datatablesSimple').DataTable({

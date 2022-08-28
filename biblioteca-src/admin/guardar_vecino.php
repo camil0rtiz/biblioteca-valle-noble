@@ -61,42 +61,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Registrar vecino
                     </div>
                     <div class="card-body">
-                        <form action="" method="post" id="formMain">
+                        <form action="" method="post" id="form">
                             <div class="mb-3 form-group">
                                 <label for="">Rut</label>
-                                <input type="text" name="rut" id="rut" oninput="checkRut(this)" class="form-control" maxlength="10" required>
+                                <input type="text" name="rut" id="rut" oninput="checkRut(this)" class="form-control" maxlength="10">
+                                <p id="respuesta" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Nombre</label>
-                                <input type="text" name="nombre" id="nombre" class="form-control" required>
+                                <input type="text" name="nombre" id="nombre" class="form-control">
+                                <p id="nom" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Apellido Paterno</label>
-                                <input type="text" name="a_paterno" id="a_paterno" class="form-control" required>
+                                <input type="text" name="a_paterno" id="a_paterno" class="form-control">
+                                <p id="p_apellido" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Apellido Materno</label>
-                                <input type="text" name="a_materno" id="a_materno" class="form-control" required>
+                                <input type="text" name="a_materno" id="a_materno" class="form-control">
+                                <p id="s_apellido" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Correo</label>
-                                <input type="email" name="correo" id="correo" class="form-control" required>
+                                <input type="email" name="correo" id="correo" class="form-control">
+                                <p id="email" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Dirección</label>
-                                <input type="text" name="direccion" id="direccion" class="form-control" required>
+                                <input type="text" name="direccion" id="direccion" class="form-control">
+                                <p id="direc" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Fono</label>
-                                <input type="number" name="fono" id="fono" class="form-control" min="1" required>
+                                <input type="number" name="fono" id="fono" class="form-control" min="1">
+                                <p id="fon" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Contraseña</label>
-                                <input type="password" name="contrasena" id="contrasena" class="form-control" required>
+                                <input type="password" name="contrasena" id="contrasena" class="form-control">
+                                <p id="contra" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Confirmar contraseña</label>
-                                <input type="password" id="confirmar_contrasena" class="form-control" required>
+                                <input type="password" id="confirmar_contrasena" class="form-control">
                                 <p id="err" class="text-danger"> </p>
                             </div>
                             <p> Seleccione plan de membresía</p>
@@ -140,8 +148,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="../assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="../static/js/datatables-simple-demo.js"></script>
-    <script src="../static/js/rut.js"></script>
-    <script src="../static/js/validar_contrasenas.js"></script>
+    <!-- <script src="../static/js/rut.js"></script> -->
+    <script src="../static/js/validar_formulario_admin.js"></script>
 </body>
 
 </html>
