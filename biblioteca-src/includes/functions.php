@@ -165,6 +165,8 @@ function registrar_vecino($rut, $nombre, $a_paterno, $a_materno, $correo, $direc
     }
 }
 
+//funcion para listar solo los vecino que este habilitados.
+
 function listar_vecinos(){
     include 'db.php';
     // $sql_query = "SELECT id_usuario, nombre, apellido_paterno, apellido_materno, rut, correo, telefono, direccion FROM usuario WHERE usuario.estado = 'habilitado'";
@@ -178,6 +180,8 @@ function listar_vecinos(){
     $conn->close();
     return $row;;
 }
+
+//funcion para editar vecino
 
 function editar_vecino($id, $nombre, $a_paterno, $a_materno, $correo, $direccion, $fono)
 {
@@ -197,6 +201,8 @@ function editar_vecino($id, $nombre, $a_paterno, $a_materno, $correo, $direccion
     return 1;
 }
 
+//funcion para listar a vecinos que esten en estado pendiente (que se registro desde la página pero aún el adminitrador lo ha válidado)
+
 function listar_vecinos_pendientes(){
     include 'db.php';
     $sql_query = "SELECT u.id_usuario, u.nombre, u.apellido_paterno, u.comprobante ,u.apellido_materno, u.rut, u.correo, u.telefono, u.direccion, p.id_membresia 
@@ -209,6 +215,8 @@ function listar_vecinos_pendientes(){
     $conn->close();
     return $row;;
 }
+
+//funcion que cambia el estado del vecino de estado pendiente a habilitado, se activa cuando el administrador confirma que los datos bancarios del vecino esten bien
 
 function cambiar_estado_vecino($id,$id_membresia)
 {
@@ -237,6 +245,8 @@ function cambiar_estado_vecino($id,$id_membresia)
     $stmt2->close();
     return 1;
 }
+
+//funcion que utilizara el cron para cambiar de estado a vencido a vecino que expiro su membresia
 
 function membresia_vencida($id){
 
@@ -272,4 +282,25 @@ function editar_libro($id_libro, $titulo_libro, $id_categoria, $cantidad, $isbn_
     $stmt->close();
     $conn->close();
     return 1;
+}
+
+// funcion que lista a los vecinos que se les expiro su membresia
+
+function listar_vecinos_vencidos(){
+    include 'db.php';
+    $sql_query = "SELECT u.id_usuario, u.nombre, u.apellido_paterno, u.apellido_materno, u.rut, p.id_membresia,p.fecha_vencimiento 
+    FROM usuario u , paga p where u.id_usuario = p.id_usuario and u.estado = 'vencido'";
+    $stmt = $conn->prepare($sql_query);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_all(MYSQLI_ASSOC);
+    $stmt->close();
+    $conn->close();
+    return $row;;
+}
+
+//funcion que cambia el estado 
+
+function renovar_membresia(){
+
 }

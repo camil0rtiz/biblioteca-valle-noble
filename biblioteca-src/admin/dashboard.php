@@ -1,5 +1,7 @@
 <?php
 
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['id']) && isset($_GET['id_membresia'])) {
 
@@ -52,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                         Vecinos para habilitar
                     </div>
                     <div class="card-body">
-                        <table id="datatablesSimple" class="table display" style="width:100%">
+                        <table id="datatablesSimple" class="table display responsive nowrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Rut</th>
@@ -85,30 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                 Habilitar
                                             </button>
-
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Mensaje</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            Estas seguro de habilitar a vecino.
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                            <a class="btn btn-primary habilitar" href="dashboard.php?id=<?php echo $vecino['id_usuario']; ?> & id_membresia=<?php echo $vecino['id_membresia']; ?>" role="button">Aceptar</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- <form action="" name="habilitar" id="formulario" method="post">
-                                                <input type="hidden" name="id" id="id" value="">
-                                                <input type="hidden" name="id_membresia" id="id_membresia" value="">
-                                                <button type="submit" onclick="confirmar(event)" class="btn btn-primary">Habilitar</button>
-                                            </form> -->
                                         </td>
 
 
@@ -116,6 +94,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                 <?php } ?>
                             </tbody>
                         </table>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Mensaje</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ¿Estás seguro de habilitar a vecino?
+                                    </div>
+                                    <div class="modal-body"><img width="400" height="400" src="../static/img/warning.png" />   </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <a class="btn btn-primary habilitar" href="dashboard.php?id=<?php echo $vecino['id_usuario']; ?> & id_membresia=<?php echo $vecino['id_membresia']; ?>" role="button">Aceptar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="card mt-4">
@@ -127,39 +125,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                         <table id="datatablesSimple1" class="table display responsive nowrap" style="width:100%">
                             <thead>
                                 <tr>
+                                    <th>Rut</th>
                                     <th>Nombre</th>
-                                    <th>Tiempo</th>
-                                    <th>Correo</th>
-                                    <th>Renovar membresia</th>
+                                    <th>Apellidos</th>
+                                    <th>fecha de vencimiento</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Tiempo</th>
-                                    <th>Correo</th>
-                                    <th>Notificar</th>
-                                </tr>
-                            </tfoot>
                             <tbody>
-                                <tr>
-                                    <td>Jonatan Brito</td>
-                                    <td>48 horas (2 días)</td>
-                                    <td>jonatan@brito.cl</td>
-                                    <td><button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fa-solid fa-bell"></i></button></td>
-                                </tr>
-                                <tr>
-                                    <td>Marcos Brito</td>
-                                    <td>48 horas (2 días)</td>
-                                    <td>marcos@gmail.com</td>
-                                    <td><button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fa-solid fa-bell"></i></button></td>
-                                </tr>
-                                <tr>
-                                    <td>Mariah Maciachian</td>
-                                    <td>72 horas (3 días)</td>
-                                    <td>patata@gmail.com</td>
-                                    <td><button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fa-solid fa-bell"></i>Renovar</button></td>
-                                </tr>
+                                <?php
+                                $vecinos = listar_vecinos_vencidos();
+                                foreach ($vecinos as $vecino) {
+                                ?>
+
+                                    <tr>
+                                        <td><?php echo $vecino['rut']; ?></td>
+                                        <td><?php echo $vecino['nombre']; ?></td>
+                                        <td><?php echo $vecino['apellido_paterno'] . ' ' . $vecino['apellido_materno']; ?></td>
+                                        <td><?php
+                                            echo date("d-m-Y", strtotime($vecino['fecha_vencimiento'])); 
+                                        ?></td>
+                                        <td>
+                                            <a type="button" href="renovar_membresia.php?id=<?php echo $vecino['id_usuario']; ?>& rut=<?php echo $vecino['rut']; ?> & nombre=<?php echo $vecino['nombre']; ?> 
+                                        & ape_pa=<?php echo $vecino['apellido_paterno']; ?> & ape_ma=<?php echo $vecino['apellido_materno']; ?> & fecha=<?php echo $vecino['fecha_vencimiento']; ?>" name="renovar_membresia" class="btn btn-primary">Reanovar membresia</a>
+                                        </td>
+
+
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
                     </div>
