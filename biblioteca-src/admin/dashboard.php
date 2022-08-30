@@ -147,10 +147,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                         ?></td>
                                         <td>
                                             <a type="button" href="renovar_membresia.php?id=<?php echo $vecino['id_usuario']; ?>& rut=<?php echo $vecino['rut']; ?> & nombre=<?php echo $vecino['nombre']; ?> 
-                                        & ape_pa=<?php echo $vecino['apellido_paterno']; ?> & ape_ma=<?php echo $vecino['apellido_materno']; ?> & fecha=<?php echo $vecino['fecha_vencimiento']; ?>" name="renovar_membresia" class="btn btn-primary">Reanovar membresia</a>
+                                        & ape_pa=<?php echo $vecino['apellido_paterno']; ?> & ape_ma=<?php echo $vecino['apellido_materno']; ?> & fecha=<?php echo $vecino['fecha_vencimiento']; ?>" name="renovar_membresia" class="btn btn-primary">Reanovar membresía</a>
                                         </td>
-
-
                                     </tr>
                                 <?php } ?>
                             </tbody>

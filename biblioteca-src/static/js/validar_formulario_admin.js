@@ -8,6 +8,8 @@ const direccion = document.getElementById('direccion');
 const fono = document.getElementById('fono');
 const constrasena = document.getElementById('contrasena');
 const con_contrasena = document.getElementById('confirmar_contrasena');
+const membresia = document.getElementById('id_membresia');
+
 
 const formIsValid = {
     rut: false,
@@ -18,6 +20,7 @@ const formIsValid = {
     fono:false,
     direccion: false, 
     con_contrasena: false,
+    membresia: false
 }
 
 form.addEventListener("submit", (e) => {
@@ -37,7 +40,10 @@ const validar = () =>{
     const fonovalue = fono.value.trim();
     const contrasenavalue = constrasena.value.trim();
     const con_contrasenavalue = con_contrasena.value.trim();
-
+    const membresiaValue = membresia.value.trim();
+    
+    console.log(membresiaValue);
+   
     if(rutvalue === '') {
         errorRut('Rut es requerido');
     
@@ -113,7 +119,15 @@ const validar = () =>{
         conConstrasenaError("Las contraseñas no coinciden");
     }else{
         formIsValid.con_contrasena = true
-    }  
+    }
+    
+    if(membresiaValue == ''){
+
+        conMembresiaError('Ingrese membresia');
+        
+    }else{
+        formIsValid.membresia = true;
+    }
 
 }
 rut.addEventListener("change",(e)=>{
@@ -168,6 +182,12 @@ con_contrasena.addEventListener("change",(e)=>{
     }
 })
 
+id_membresia.addEventListener("change",(e)=>{
+    if(e.target.value.trim().length != 0){
+        mem.innerHTML = " ";
+    }
+})
+
 
 const errorRut = (message) => {
     respuesta.innerHTML = message;
@@ -205,6 +225,10 @@ const conConstrasenaError = (message) => {
     err.innerHTML = message;
 }
 
+const conMembresiaError = (message) => {
+    mem.innerHTML = message;
+}
+
 
 const isValidEmail = email => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -215,6 +239,7 @@ const isValidEmail = email => {
 const validateForm = () => {
     const formValue = Object.values(formIsValid);
     const valid = formValue.findIndex(value=> value == false);
+    console.log(valid);
     if(valid == -1) {
         form.submit();
     }

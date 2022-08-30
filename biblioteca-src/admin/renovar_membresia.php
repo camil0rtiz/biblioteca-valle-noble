@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="card mt-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        Renovar membresia vecino
+                        Renovar membresía vecino
                     </div>
                     <div class="card-body">
                         <form action="" method="post" id="form">
@@ -71,19 +71,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <p id="s_apellido" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
-                                <label for="">fecha vencimiento membresia</label>
+                                <label for="">fecha vencimiento membresía</label>
                                 <input type="text" name="fecha" id="fecha" class="form-control" disabled value="<?php echo $fecha ?>">
                                 <p id="s_apellido" class="text-danger"> </p>
                             </div>
                             <p> Seleccione plan de membresía</p>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="id_membresia" id="inlineRadio1" value=1>
-                                <label class="form-check-label" for="inlineRadio1">Semestral</label>
-                            </div>
-                            <div class="form-check form-check-inline mb-3 form-group">
-                                <input class="form-check-input" type="radio" name="id_membresia" id="inlineRadio2" value=2>
-                                <label class="form-check-label" for="inlineRadio2">Anual</label>
-                            </div>
+                            <select class="form-select" name="id_membresia" id="id_membresia" aria-label="Default select example">
+                                <option selected value="">Ingrese membresía</option>
+                                <option value="1">Semestral</option>
+                                <option value="2">Anual</option>
+                            </select>
+                            <p id="mem" class="text-danger"> </p>
 
                             <!-- <button type="submit" name="renovar_membresia" class="w-100 btn btn-lg btn-outline-primary">Renovar membresia</button>
                             <a type="button" href="listar_vecinos.php" name="registro" class="w-100 btn btn-lg btn-outline-danger mt-2">Atrás</a> -->
