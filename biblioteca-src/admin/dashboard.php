@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                         Vecinos para habilitar
                     </div>
                     <div class="card-body">
-                        <table id="datatablesSimple" class="table display responsive nowrap" style="width:100%">
+                        <table id="datatablesSimple" class="table table-striped display responsive nowrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Rut</th>
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                     <th>Teléfono</th>
                                     <th>Email</th>
                                     <th>Comprobante de pago</th>
-                                    <th>Habilitar vecino</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                         Suscripciones vencidas
                     </div>
                     <div class="card-body">
-                        <table id="datatablesSimple1" class="table display responsive nowrap" style="width:100%">
+                        <table id="datatablesSimple1" class="table table-striped display responsive nowrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Rut</th>

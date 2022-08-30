@@ -301,28 +301,28 @@ function listar_vecinos_vencidos(){
 
 //funcion que cambia el estado 
 
-function renovar_membresia(){
-    // $fecha_activacion = date('Y-m-d');
+function renovar_membresia($id,$id_membresia){
+    $fecha_activacion = date('Y-m-d');
 
-    // if($id_membresia == '1'){
-    //     $fecha_vencimiento = strtotime('+6 months', strtotime($fecha_activacion));
-    //     $fecha_vencimiento = date('Y-m-d' , $fecha_vencimiento);
-    // }elseif($id_membresia == '2'){
-    //     $fecha_vencimiento = strtotime('+12 months', strtotime($fecha_activacion));
-    //     $fecha_vencimiento = date('Y-m-d' , $fecha_vencimiento);
-    // }
+    if($id_membresia == '1'){
+        $fecha_vencimiento = strtotime('+6 months', strtotime($fecha_activacion));
+        $fecha_vencimiento = date('Y-m-d' , $fecha_vencimiento);
+    }elseif($id_membresia == '2'){
+        $fecha_vencimiento = strtotime('+12 months', strtotime($fecha_activacion));
+        $fecha_vencimiento = date('Y-m-d' , $fecha_vencimiento);
+    }
 
-    // $estado = 'habilitado';
-    // include 'db.php';
-    // $sql_query = "UPDATE usuario SET estado = ? WHERE id_usuario = ?";
-    // $stmt = $conn->prepare($sql_query);
-    // $stmt->bind_param('si', $estado,$id);
-    // $sql_query2 = "UPDATE paga SET fecha_activacion = ?, fecha_vencimiento = ? WHERE id_usuario = ?";
-    // $stmt2 = $conn->prepare($sql_query2);
-    // $stmt2->bind_param('ssi', $fecha_activacion,$fecha_vencimiento,$id);
-    // $stmt->execute();
-    // $stmt2->execute();
-    // $stmt->close();
-    // $stmt2->close();
-    // return 1;
+    $estado = 'habilitado';
+    include 'db.php';
+    $sql_query = "UPDATE usuario SET estado = ? WHERE id_usuario = ?";
+    $stmt = $conn->prepare($sql_query);
+    $stmt->bind_param('si', $estado,$id);
+    $sql_query2 = "UPDATE paga SET fecha_activacion = ?, fecha_vencimiento = ? WHERE id_usuario = ?";
+    $stmt2 = $conn->prepare($sql_query2);
+    $stmt2->bind_param('ssi', $fecha_activacion,$fecha_vencimiento,$id);
+    $stmt->execute();
+    $stmt2->execute();
+    $stmt->close();
+    $stmt2->close();
+    return 1;
 }

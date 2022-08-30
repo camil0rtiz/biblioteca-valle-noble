@@ -166,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     success: function(datos) {
 
                         if (datos.success == 0) {
-                       
+
                             $("#respuesta").html(datos.message);
                             $("#nombre").attr("disabled", false);
                             $("#a_paterno").attr("disabled", false);
@@ -180,8 +180,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $("#registro").attr("disabled", false);
                             $("#id_membresia").attr("disabled", false);
                             $("#registro").attr("disabled", false);
-                        
-                        }else if (datos.success == 1) {
+
+                        } else if (datos.success == 1) {
 
                             $("#respuesta").html(datos.message);
                             $("#nombre").attr("disabled", true);
@@ -196,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $("#registro").attr("disabled", true);
                             $("#id_membresia").attr("disabled", true);
                             $("#registro").attr("disabled", true);
-                            
+
                         } else if (datos.success == 2) {
                             $("#respuesta").html(datos.message);
                             $("#nombre").attr("disabled", true);
@@ -211,8 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             $("#registro").attr("disabled", true);
                             $("#id_membresia").attr("disabled", true);
                             $("#registro").attr("disabled", true);
-                        }
-                        else if (datos.success == 3) {
+                        } else if (datos.success == 3) {
                             $("#respuesta").html(datos.message);
                             $("#nombre").attr("disabled", true);
                             $("#a_paterno").attr("disabled", true);

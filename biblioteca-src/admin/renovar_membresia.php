@@ -1,26 +1,37 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once('../includes/functions.php');
-    if (
-        isset($_POST['nombre']) && isset($_POST['a_paterno']) && isset($_POST['a_materno']) && isset($_POST['correo'])
-        && isset($_POST['direccion']) && isset($_POST['fono'])
-    ) {
+    if ( isset($_POST['id']) && isset($_POST['id_membresia'])){
 
         $id = $_POST['id'];
-        $nombre = $_POST['nombre'];
-        $a_paterno = $_POST['a_paterno'];
-        $a_materno = $_POST['a_materno'];
-        $correo = $_POST['correo'];
-        $direccion = $_POST['direccion'];
-        $fono = $_POST['fono'];
+        $membresia = $_POST['id_membresia'];
 
-        if (renovar_membresia() == 1) {
+        echo $id;
+        echo $membresia;
+        
+        if (renovar_membresia($id,$membresia) == 1) {
 
-            header('Location:listar_vecinos.php?msg=1');
+            header('Location:dashboard.php');
         } else {
-            header('Location:listar_vecinos.php?msg=2');
+            header('Location:dashboard.php');
         }
     }
+}
+
+if (
+    !empty($_GET['rut']) && !empty($_GET['id']) && !empty($_GET['nombre']) && !empty($_GET['ape_pa'])
+    && !empty($_GET['ape_ma']) 
+) {
+
+    $rut = $_GET['rut'];
+    $id = $_GET['id'];
+    $nombre = $_GET['nombre'];
+    $a_pa = $_GET['ape_pa'];
+    $a_ma = $_GET['ape_ma'];
+    $fecha = date("d-m-Y", strtotime($_GET['fecha']));
+
+}else{
+    header('Location:dashboard.php');
 }
 
 ?>
@@ -34,14 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <?php
-                    $rut = $_GET['rut'];
-                    $id = $_GET['id'];
-                    $nombre = $_GET['nombre'];
-                    $a_pa = $_GET['ape_pa'];
-                    $a_ma = $_GET['ape_ma'];
-                    $fecha = date("d-m-Y", strtotime($_GET['fecha']))
-                ?>
+            
                 <div class="card mt-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
@@ -82,9 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <option value="2">Anual</option>
                             </select>
                             <p id="mem" class="text-danger"> </p>
-
-                            <!-- <button type="submit" name="renovar_membresia" class="w-100 btn btn-lg btn-outline-primary">Renovar membresia</button>
-                            <a type="button" href="listar_vecinos.php" name="registro" class="w-100 btn btn-lg btn-outline-danger mt-2">Atrás</a> -->
+                            <button type="submit" name="renovar_membresia" class="w-100 btn btn-lg btn-outline-primary">Renovar membresia</button>
+                            <a type="button" href="listar_vecinos.php" name="registro" class="w-100 btn btn-lg btn-outline-danger mt-2">Atrás</a>
                         </form>
                     </div>
                 </div>
@@ -111,6 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="../assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="../static/js/datatables-simple-demo.js"></script>
+    <script src="../static/js/validar_renovar.js"></script>
 </body>
 
 </html>

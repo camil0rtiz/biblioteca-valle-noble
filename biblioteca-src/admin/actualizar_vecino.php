@@ -23,6 +23,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+if (
+    !empty($_GET['id']) && !empty($_GET['nombre']) && !empty($_GET['nombre']) && !empty($_GET['ape_pa'])
+    && !empty($_GET['ape_ma']) && !empty($_GET['direc'] && !empty($_GET['fono']) && !empty($_GET['correo']))
+) {
+    $id = $_GET['id'];
+    $nombre = $_GET['nombre'];
+    $a_pa = $_GET['ape_pa'];
+    $a_ma = $_GET['ape_ma'];
+    $direccion = $_GET['direc'];
+    $fono = $_GET['fono'];
+    $correo = $_GET['correo'];
+} else {
+    header('Location:dashboard.php');
+}
+
 ?>
 
 <?php include('partes/head.php') ?>
@@ -34,16 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <?php
-                    $id = $_GET['id'];
-                    $nombre = $_GET['nombre'];
-                    $a_pa = $_GET['ape_pa'];
-                    $a_ma = $_GET['ape_ma'];
-                    $direccion = $_GET['direc'];
-                    $fono = $_GET['fono'];
-                    $correo = $_GET['correo'];
-
-                ?>
                 <div class="card mt-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
@@ -51,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <div class="card-body">
                         <form action="" method="post" id="form">
-                            <input type="hidden" name="id" id="id" class="form-control" value="<?php echo $id ?>"> 
+                            <input type="hidden" name="id" id="id" class="form-control" value="<?php echo $id ?>">
                             <div class="mb-3 form-group">
                                 <label for="">Nombre</label>
                                 <input type="text" name="nombre" id="nombre" class="form-control" value="<?php echo $nombre ?>">
