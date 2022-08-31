@@ -2,10 +2,7 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once('../includes/functions.php');
     if (
-        isset($_POST['nombre']) && isset($_POST['a_paterno']) && isset($_POST['a_materno']) && isset($_POST['correo'])
-        && isset($_POST['direccion']) && isset($_POST['fono'])
-    ) {
-
+        isset($_POST['titulo_libro']) && isset($_POST['id_categoria']) && isset($_POST['cantidad_libro']) && isset($_POST['isbn_libro'])) {
         $id = $_POST['id'];
         $nombre = $_POST['nombre'];
         $a_paterno = $_POST['a_paterno'];
@@ -14,9 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $direccion = $_POST['direccion'];
         $fono = $_POST['fono'];
 
-        if (editar_vecino($id, $nombre, $a_paterno, $a_materno, $correo, $direccion, $fono) == 1) {
+        if (editar_libro($id_libro, $titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro) == 1) {
 
-            header('Location:listar_vecinos.php?msg=1');
+            header('Location:listar_libros.php?msg=1');
         } else {
             header('Location:listar_vecinos.php?msg=2');
         }

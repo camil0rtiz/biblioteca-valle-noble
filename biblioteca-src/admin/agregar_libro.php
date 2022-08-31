@@ -77,8 +77,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="col-md-6">
                                     <label for="">Agregue un nuevo ejemplar a un libro existente</label>                         
                                     <select name="titulo_libro" id="listadoTitulo" class="form-control" required>
-                                        <option value="0">Seleccione un libro</option>
-                                        <option value="1">1984</option>
+                                        <?php
+                                        include '../includes/functions.php';
+                                        $libros = listar_libros();
+                                        echo '<option value="0">Seleccione un libro</option>';
+                                        foreach ($libros as $libro) {
+                                            echo '<option value="'.$libro[5].'">'.$libro[1].'</option>';
+                                        }
+                                        ?>
                                     </select>
                                 </div>                            
                             </div>
@@ -86,8 +92,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="mb-3">
                                     <label for="">Categoría </label>
                                     <select name="id_categoria" class="form-control" required>
-                                        <option>Novela</option>
-                                        <option></option>
+                                        <?php
+                                        //include '../includes/functions.php';
+                                        $categorias = listar_categorias();
+                                        foreach ($categorias as $categoria) {
+                                            echo '<option value="'.$categoria[1].'">'.$categoria[2].'</option>';
+                                            # code...
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
