@@ -8,7 +8,8 @@ const direccion = document.getElementById('direccion');
 const fono = document.getElementById('fono');
 const constrasena = document.getElementById('contrasena');
 const con_contrasena = document.getElementById('confirmar_contrasena');
-const comprobante = document.getElementById('formFile');
+const membresia = document.getElementById('id_membresia');
+
 
 const formIsValid = {
     rut: false,
@@ -19,7 +20,7 @@ const formIsValid = {
     fono:false,
     direccion: false, 
     con_contrasena: false,
-    comprobante: false
+    membresia: false
 }
 
 form.addEventListener("submit", (e) => {
@@ -39,8 +40,10 @@ const validar = () =>{
     const fonovalue = fono.value.trim();
     const contrasenavalue = constrasena.value.trim();
     const con_contrasenavalue = con_contrasena.value.trim();
-    const comprobantevalue = comprobante.value.trim();
-
+    const membresiaValue = membresia.value.trim();
+    
+    console.log(membresiaValue);
+   
     if(rutvalue === '') {
         errorRut('Rut es requerido');
     
@@ -116,16 +119,16 @@ const validar = () =>{
         conConstrasenaError("Las contraseñas no coinciden");
     }else{
         formIsValid.con_contrasena = true
-    }  
-
-    if(comprobantevalue == ''){
-        comprobanteError('Comprobante es requerido');
-    }else if(validarExtension(comprobantevalue) == false){
-        comprobanteError('Extension no permitida');
     }
-    else{
-        formIsValid.comprobante = true
-    } 
+    
+    if(membresiaValue == ''){
+
+        conMembresiaError('Ingrese membresia');
+        
+    }else{
+        formIsValid.membresia = true;
+    }
+
 }
 rut.addEventListener("change",(e)=>{
     if(e.target.value.trim().length > 0){
@@ -179,9 +182,9 @@ con_contrasena.addEventListener("change",(e)=>{
     }
 })
 
-comprobante.addEventListener("change",(e)=>{
-    if(e.target.value.trim().length > 0){
-        compro.innerHTML = " ";
+id_membresia.addEventListener("change",(e)=>{
+    if(e.target.value.trim().length != 0){
+        mem.innerHTML = " ";
     }
 })
 
@@ -222,9 +225,10 @@ const conConstrasenaError = (message) => {
     err.innerHTML = message;
 }
 
-const comprobanteError = (message) => {
-    compro.innerHTML = message
+const conMembresiaError = (message) => {
+    mem.innerHTML = message;
 }
+
 
 const isValidEmail = email => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -235,26 +239,25 @@ const isValidEmail = email => {
 const validateForm = () => {
     const formValue = Object.values(formIsValid);
     const valid = formValue.findIndex(value=> value == false);
+    console.log(valid);
     if(valid == -1) {
         form.submit();
     }
 }
 
 const validarInput = (text) =>{
-    patron = /[0-9@<>()[\]\\.,;:]/;
+    patron = /[0-9@]/;
     return patron.test(text);
 }
 
 const validarExtension = archivo => {
 
-    const extPermitidas = /.(jpeg|jpg|pdf)$/i;
+    const extPermitidas = /(.jpeg|.pdf)$/i;
 
     if(!extPermitidas.exec(archivo)){
-        console.log('hola');
         return false;
     }
     else{
-        console.log('holi');
         return true;
     }
 

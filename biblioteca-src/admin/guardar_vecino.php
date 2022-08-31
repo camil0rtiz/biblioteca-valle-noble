@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id_membresia = $_POST['id_membresia'];
         $estado = $_POST['estado'];
 
-        if (registrar_vecino($rut, $nombre, $a_paterno, $a_materno, $correo, $direccion, $fono, $contrasena, $id_membresia, $estado,null,null)  == 1) {
+        if (registrar_vecino($rut, $nombre, $a_paterno, $a_materno, $correo, $direccion, $fono, $contrasena, $id_membresia, $estado, null, null)  == 1) {
             header('Location: guardar_vecino.php?msg=1');
         } else {
             //header('Location:guardar_vecino.php');
@@ -61,56 +61,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Registrar vecino
                     </div>
                     <div class="card-body">
-                        <form action="" method="post" id="formMain">
+                        <form action="" method="post" id="form">
                             <div class="mb-3 form-group">
                                 <label for="">Rut</label>
-                                <input type="text" name="rut" id="rut" oninput="checkRut(this)" class="form-control" maxlength="10" required>
+                                <input type="text" name="rut" id="rut" class="form-control" maxlength="10">
+                                <p id="respuesta" class="text-danger"> </p>
+                                <p id="cedula" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Nombre</label>
-                                <input type="text" name="nombre" id="nombre" class="form-control" required>
+                                <input type="text" name="nombre" id="nombre" class="form-control">
+                                <p id="nom" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Apellido Paterno</label>
-                                <input type="text" name="a_paterno" id="a_paterno" class="form-control" required>
+                                <input type="text" name="a_paterno" id="a_paterno" class="form-control">
+                                <p id="p_apellido" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Apellido Materno</label>
-                                <input type="text" name="a_materno" id="a_materno" class="form-control" required>
+                                <input type="text" name="a_materno" id="a_materno" class="form-control">
+                                <p id="s_apellido" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Correo</label>
-                                <input type="email" name="correo" id="correo" class="form-control" required>
+                                <input type="email" name="correo" id="correo" class="form-control">
+                                <p id="email" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Dirección</label>
-                                <input type="text" name="direccion" id="direccion" class="form-control" required>
+                                <input type="text" name="direccion" id="direccion" class="form-control">
+                                <p id="direc" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Fono</label>
-                                <input type="number" name="fono" id="fono" class="form-control" min="1" required>
+                                <input type="number" name="fono" id="fono" class="form-control" min="1">
+                                <p id="fon" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Contraseña</label>
-                                <input type="password" name="contrasena" id="contrasena" class="form-control" required>
+                                <input type="password" name="contrasena" id="contrasena" class="form-control">
+                                <p id="contra" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Confirmar contraseña</label>
-                                <input type="password" id="confirmar_contrasena" class="form-control" required>
+                                <input type="password" id="confirmar_contrasena" class="form-control">
                                 <p id="err" class="text-danger"> </p>
                             </div>
                             <p> Seleccione plan de membresía</p>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="id_membresia" id="inlineRadio1" value=1>
-                                <label class="form-check-label" for="inlineRadio1">Semestral</label>
-                            </div>
-                            <div class="form-check form-check-inline mb-3 form-group">
-                                <input class="form-check-input" type="radio" name="id_membresia" id="inlineRadio2" value=2>
-                                <label class="form-check-label" for="inlineRadio2">Anual</label>
-                            </div>
+                            <select class="form-select" name="id_membresia" id="id_membresia" aria-label="Default select example">
+                                <option selected value="">Ingrese membresía</option>
+                                <option value="1">Semestral</option>
+                                <option value="2">Anual</option>
+                            </select>
+                            <p id="mem" class="text-danger"> </p>
                             <input type="hidden" value="habilitado" name="estado">
-                            <button type="submit" name="registro" class="w-100 btn btn-lg btn-outline-primary">Registrar</button>
-                            <a type="button" href="dashboard.php" name="registro" class="w-100 btn btn-lg btn-outline-danger mt-2">Atrás</a>
+                            <button type="submit" name="registro" id="registro" class="w-100 btn btn-lg btn-outline-primary">Registrar</button>
+                            <a type="button" href="dashboard.php" name="registro" class="w-100 btn btn-lg btn-outline-danger mt-2">Volver a menú</a>
                         </form>
                     </div>
                 </div>
@@ -140,8 +147,90 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="../assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="../static/js/datatables-simple-demo.js"></script>
-    <script src="../static/js/rut.js"></script>
-    <script src="../static/js/validar_contrasenas.js"></script>
+    <script src="../static/js/validar_formulario_admin.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        $("#rut").on("keyup", function() {
+            var cedula = $("#rut").val(); //CAPTURANDO EL VALOR DE INPUT CON ID CEDULA
+            var longitudCedula = $("#rut").val().length; //CUENTO LONGITUD
+            //Valido la longitud 
+            if (longitudCedula >= 5) {
+                var dataString = 'cedula=' + cedula;
+
+                $.ajax({
+                    url: '../buscar_rut.php',
+                    type: "GET",
+                    data: dataString,
+                    dataType: "JSON",
+
+                    success: function(datos) {
+
+                        if (datos.success == 0) {
+
+                            $("#respuesta").html(datos.message);
+                            $("#nombre").attr("disabled", false);
+                            $("#a_paterno").attr("disabled", false);
+                            $("#a_materno").attr("disabled", false);
+                            $("#correo").attr("disabled", false);
+                            $("#direccion").attr("disabled", false);
+                            $("#fono").attr("disabled", false);
+                            $("#contrasena").attr("disabled", false);
+                            $("#confirmar_contrasena").attr("disabled", false);
+                            $("#imagen").attr("disabled", false);
+                            $("#registro").attr("disabled", false);
+                            $("#id_membresia").attr("disabled", false);
+                            $("#registro").attr("disabled", false);
+
+                        } else if (datos.success == 1) {
+
+                            $("#respuesta").html(datos.message);
+                            $("#nombre").attr("disabled", true);
+                            $("#a_paterno").attr("disabled", true);
+                            $("#a_materno").attr("disabled", true);
+                            $("#correo").attr("disabled", true);
+                            $("#direccion").attr("disabled", true);
+                            $("#fono").attr("disabled", true);
+                            $("#contrasena").attr("disabled", true);
+                            $("#confirmar_contrasena").attr("disabled", true);
+                            $("#imagen").attr("disabled", true);
+                            $("#registro").attr("disabled", true);
+                            $("#id_membresia").attr("disabled", true);
+                            $("#registro").attr("disabled", true);
+
+                        } else if (datos.success == 2) {
+                            $("#respuesta").html(datos.message);
+                            $("#nombre").attr("disabled", true);
+                            $("#a_paterno").attr("disabled", true);
+                            $("#a_materno").attr("disabled", true);
+                            $("#correo").attr("disabled", true);
+                            $("#direccion").attr("disabled", true);
+                            $("#fono").attr("disabled", true);
+                            $("#contrasena").attr("disabled", true);
+                            $("#confirmar_contrasena").attr("disabled", true);
+                            $("#imagen").attr("disabled", true);
+                            $("#registro").attr("disabled", true);
+                            $("#id_membresia").attr("disabled", true);
+                            $("#registro").attr("disabled", true);
+                        } else if (datos.success == 3) {
+                            $("#respuesta").html(datos.message);
+                            $("#nombre").attr("disabled", true);
+                            $("#a_paterno").attr("disabled", true);
+                            $("#a_materno").attr("disabled", true);
+                            $("#correo").attr("disabled", true);
+                            $("#direccion").attr("disabled", true);
+                            $("#fono").attr("disabled", true);
+                            $("#contrasena").attr("disabled", true);
+                            $("#confirmar_contrasena").attr("disabled", true);
+                            $("#imagen").attr("disabled", true);
+                            $("#registro").attr("disabled", true);
+                            $("#id_membresia").attr("disabled", true);
+                            $("#registro").attr("disabled", true);
+                        }
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -17,16 +17,22 @@ $vecino = mysqli_fetch_all($query, MYSQLI_ASSOC);
     $jsonData['success'] = 0;
     $jsonData['message'] = '';
     //$jsonData['message'] = '';
-}else if($vecino[0]['estado'] == 'habilitado'){
-
-    $jsonData['success'] = 2;
-    $jsonData['message'] = '<p style="color:red;">Su cuenta aún esta vigente <strong>(' .$rut.')<strong></p>';
-
-} else{
+  } else if($vecino[0]['estado'] == 'vencido'){
     //Si hay datos entonces retornas algo
     $jsonData['success'] = 1;
     $jsonData['vecino'] = $vecino[0];
-    $jsonData['message'] = '<p style="color:red;">Ya existe la Cédula <strong>(' .$rut.')<strong></p>';
+    $jsonData['message'] = '<p style="color:red;">Esta cuenta esta vencida <strong>(' .$rut.')<strong></p>';
+  }
+  else if($vecino[0]['estado'] == 'habilitado'){
+
+    $jsonData['success'] = 2;
+    $jsonData['message'] = '<p style="color:red;">Esta cuenta, aún esta vigente <strong>(' .$rut.')<strong></p>';
+
+  }else if($vecino[0]['estado'] == 'pendiente'){
+
+    $jsonData['success'] = 3;
+    $jsonData['message'] = '<p style="color:red;">Vecino esta pendiente <strong>(' .$rut.')<strong></p>';
+
   }
 
 //Mostrando mi respuesta en formato Json
