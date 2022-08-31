@@ -86,7 +86,7 @@ if (
                                 <option value="2">Anual</option>
                             </select>
                             <p id="mem" class="text-danger"> </p>
-                            <button type="submit" name="renovar_membresia" class="w-100 btn btn-lg btn-outline-primary">Renovar membresia</button>
+                            <button type="submit" name="renovar_membresia" class="w-100 btn btn-lg btn-outline-primary">Renovar membresía</button>
                             <a type="button" href="listar_vecinos.php" name="registro" class="w-100 btn btn-lg btn-outline-danger mt-2">Atrás</a>
                         </form>
                     </div>

@@ -241,18 +241,20 @@ const validateForm = () => {
 }
 
 const validarInput = (text) =>{
-    patron = /[0-9@]/;
+    patron = /[0-9@<>()[\]\\.,;:]/;
     return patron.test(text);
 }
 
 const validarExtension = archivo => {
 
-    const extPermitidas = /(.jpeg|.pdf)$/i;
+    const extPermitidas = /.(jpeg|jpg|pdf)$/i;
 
     if(!extPermitidas.exec(archivo)){
+        console.log('hola');
         return false;
     }
     else{
+        console.log('holi');
         return true;
     }
 

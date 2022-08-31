@@ -84,12 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                         <td><?php echo $vecino['correo']; ?></td>
                                         <td><a href="../descarga.php?file=<?php echo $vecino['comprobante']; ?>">Descargar comprobante</a></td>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <button type="button" id="modal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-usuario="<?php echo $vecino['id_usuario']; ?>" data-bs-                                                                                                                                                                                                                                                                                                                                                                                                                                     membresia="<?php echo $vecino['id_membresia']; ?>">
                                                 Habilitar
                                             </button>
                                         </td>
-
-
                                     </tr>
                                 <?php } ?>
                             </tbody>
@@ -104,11 +102,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                     </div>
                                     <div class="modal-body">
                                         ¿Estás seguro de habilitar a vecino?
+                                        <form action="dashboard.php" method="get">
+                                            <input type="text" name="id" id="id">
+                                            <input type="text" name="id_membresia" id="id_membresia">
                                     </div>
-                                    <div class="modal-body"><img width="400" height="400" src="../static/img/warning.png" />   </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                        <a class="btn btn-primary habilitar" href="dashboard.php?id=<?php echo $vecino['id_usuario']; ?> & id_membresia=<?php echo $vecino['id_membresia']; ?>" role="button">Aceptar</a>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit">aceptar</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                         ?></td>
                                         <td>
                                             <a type="button" href="renovar_membresia.php?id=<?php echo $vecino['id_usuario']; ?>& rut=<?php echo $vecino['rut']; ?> & nombre=<?php echo $vecino['nombre']; ?> 
-                                        & ape_pa=<?php echo $vecino['apellido_paterno']; ?> & ape_ma=<?php echo $vecino['apellido_materno']; ?> & fecha=<?php echo $vecino['fecha_vencimiento']; ?>" name="renovar_membresia" class="btn btn-primary">Reanovar membresía</a>
+                                        & ape_pa=<?php echo $vecino['apellido_paterno']; ?> & ape_ma=<?php echo $vecino['apellido_materno']; ?> & fecha=<?php echo $vecino['fecha_vencimiento']; ?>" name="renovar_membresia" class="btn btn-primary">Renovar membresía</a>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -215,6 +216,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 },
             });
         });
+
+        $(document).on('click','#modal',function (){
+            var id_usuario = $this.data('usuario');
+            var id_membresia = $this.data('membresia');
+            console.log(id_usuario);
+            
+            $('#id').val(id_usuario);
+            $('#id_membresia').val(id_membresia);
+        })
     </script>
 </body>
 

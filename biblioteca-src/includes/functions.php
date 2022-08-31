@@ -107,7 +107,7 @@ function registrar_vecino($rut, $nombre, $a_paterno, $a_materno, $correo, $direc
 
         if ($contador == 0 ){
             
-            $estado_vecino = $estado;
+            $estado_vecino = htmlspecialchars($estado);
             $id_rol = 1;
             $password = password_hash($contrasena,PASSWORD_DEFAULT);
             $fecha_actual = date('Y-m-d');
@@ -186,11 +186,13 @@ function listar_vecinos(){
 function editar_vecino($id, $nombre, $a_paterno, $a_materno, $correo, $direccion, $fono)
 {
 
-    $nombre = ucfirst(strtolower(htmlspecialchars($nombre)));
-    $a_paterno = ucfirst(strtolower(htmlspecialchars($a_paterno)));
-    $a_materno = ucfirst(strtolower(htmlspecialchars($a_materno)));
-    $correo = strtolower(htmlspecialchars($correo));
-    $direccion = htmlspecialchars($direccion);
+    $nombre = ucfirst(strtolower(htmlspecialchars($nombre, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8")));
+    $a_paterno = ucfirst(strtolower(htmlspecialchars($a_paterno, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8")));
+    $a_materno = ucfirst(strtolower(htmlspecialchars($a_materno, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8")));
+    $correo = strtolower(htmlspecialchars($correo, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8"));
+    $direccion = strip_tags($direccion);
+    
+    // $direccion = htmlspecialchars($direccion, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8");
     
     include 'db.php';
     $sql_query = "UPDATE usuario SET nombre = ? , apellido_paterno = ?, apellido_materno = ?, correo = ?, direccion = ?, telefono = ? WHERE id_usuario = ?";
