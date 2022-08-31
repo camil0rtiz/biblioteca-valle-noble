@@ -143,7 +143,6 @@
                                     <input type="hidden" name="estado" id='estado' value="pendiente">
                                     <input type="hidden" name="id_membresia" value="<?php echo $membresia ?>">
                                     <button type="submit" name="registro" id='registro' class="w-100 btn btn-lg btn-outline-primary">Registrar</button>
-                                    <button type="submit" name="renovar" id='renovar' disabled class="w-100 btn btn-lg btn-outline-primary mt-2">Renovar</button>
                                     <a type="button" href="index.php" name="atras" class="w-100 btn btn-lg btn-outline-danger mt-2">Atrás</a>
                                 </form>
                             </div>
@@ -200,17 +199,20 @@
                             } else if (datos.success == 1) {//membresia vencida
 
                                 $("#respuesta").html(datos.message);
-                                $("#nombre").attr("disabled",true);
-                                $("#nombre").attr('value', datos.vecino.nombre);
-                                //$("#estado").attr('value', datos.vecino.estado);
-                                //$("#nom").attr('value', datos.vecino.nombre);
-                                //console.log(datos.vecino.estado);
-                                //$("#nombre").attr('value', datos.vecino.rut);
-                                //$("#nombre").attr('value', datos.vecino.rut);
-                                //$("#nombre").attr('value', datos.vecino.rut);
-                                //$("#nombre").attr('value', datos.vecino.rut);
-                                $("#registro").attr("disabled", true)
-                                $("#renovar").attr("disabled", false)
+                                $("#nombre").attr("disabled", false);
+                                $("#nombre").attr('value', '');
+                                $("#a_paterno").attr("disabled", false);
+                                $("#a_materno").attr("disabled", false);
+                                $("#correo").attr("disabled", false);
+                                $("#direccion").attr("disabled", false);
+                                $("#fono").attr("disabled", false);
+                                $("#contrasena").attr("disabled", false);
+                                $("#confirmar_contrasena").attr("disabled", false);
+                                $("#imagen").attr("disabled", false);
+                                $("#registro").attr("disabled", false);
+                                $("#id_membresia").attr("disabled", false);
+                                $("#registro").attr("disabled", false);
+                                $("#renovar").attr("disabled", true);
 
                             } else if (datos.success == 2) {
                                 $("#respuesta").html(datos.message);
