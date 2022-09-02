@@ -120,7 +120,7 @@ function registrar_vecino($rut, $nombre, $a_paterno, $a_materno, $correo, $direc
             
             if($estado_vecino =='habilitado'){
                 
-            $fecha_activacion = date('Y-m-d');
+                $fecha_activacion = date('Y-m-d');
 
                 if($id_membresia == '1'){
                     $fecha_vencimiento = strtotime('+6 months', strtotime($fecha_activacion));
@@ -326,5 +326,17 @@ function renovar_membresia($id,$id_membresia){
     $stmt2->execute();
     $stmt->close();
     $stmt2->close();
+    return 1;
+}
+
+function deshabilitar_vecino($id){
+
+    $estado = 'vencido';
+    include 'db.php';
+    $sql_query = "UPDATE usuario SET estado = ? WHERE id_usuario = ?";
+    $stmt = $conn->prepare($sql_query);
+    $stmt->bind_param('si', $estado,$id);
+    $stmt->execute();
+    $stmt->close();
     return 1;
 }

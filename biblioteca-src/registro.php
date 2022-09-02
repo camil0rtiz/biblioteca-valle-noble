@@ -42,7 +42,7 @@
                                     <p>Pide libros durante 6 meses pagando solo una vez</p>
                                     <form action="formulario_vecino.php" method="get">
                                         <input type="hidden" name="membresia" value=1 >
-                                        <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Registrate</button>
+                                        <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Regístrate</button>
                                     </form>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                     <p>Pide libros durante 1 año pagando solo una vez</p>
                                     <form action="formulario_vecino.php" method="get">
                                         <input type="hidden" name="membresia" value=2 >
-                                        <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Registrate</button>
+                                        <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Regístrate</button>
                                     </form>
                                 </div>
                             </div>

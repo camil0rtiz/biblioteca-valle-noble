@@ -45,6 +45,7 @@
         if ((isset($_POST['rut']) && isset($_POST['nombre']) && isset($_POST['a_paterno']) && isset($_POST['a_materno']) && isset($_POST['correo'])
             && isset($_POST['direccion']) && isset($_POST['fono']) && isset($_POST['contrasena']) && isset($_POST['id_membresia']) && isset($_POST['estado']) && isset($_FILES['imagen']['name'])) && ($_POST['estado'] == 'pendiente')) {
 
+            $DateAndTime = date('m-d-Y h:i:s', time()); 
             $rut = $_POST['rut'];
             $nombre = $_POST['nombre'];
             $a_paterno = $_POST['a_paterno'];
@@ -59,7 +60,9 @@
             $carpeta_destino = $_SERVER['DOCUMENT_ROOT'] . '/static/img/';
             $id_membresia = $_POST['id_membresia'];
             $estado = $_POST['estado'];
-            $nombre_img = $rut . $nombre_imagen;
+            $nombre_img = str_replace(' ', '-', $DateAndTime . $nombre_imagen);
+
+            echo $nombre_img;
 
             if (!(strpos($tipo_imagen, "jpeg")) || !(strpos($tipo_imagen, "pdf"))) {
                 header('Location: index.php?msg=3');
@@ -190,11 +193,9 @@
                                 $("#fono").attr("disabled", false);
                                 $("#contrasena").attr("disabled", false);
                                 $("#confirmar_contrasena").attr("disabled", false);
-                                $("#imagen").attr("disabled", false);
-                                $("#registro").attr("disabled", false);
+                                $("#formFile").attr("disabled", false);
                                 $("#id_membresia").attr("disabled", false);
                                 $("#registro").attr("disabled", false);
-                                $("#renovar").attr("disabled", true);
                                 
                             } else if (datos.success == 1) {//membresia vencida
 
@@ -208,11 +209,9 @@
                                 $("#fono").attr("disabled", false);
                                 $("#contrasena").attr("disabled", false);
                                 $("#confirmar_contrasena").attr("disabled", false);
-                                $("#imagen").attr("disabled", false);
-                                $("#registro").attr("disabled", false);
+                                $("#formFile").attr("disabled", false);
                                 $("#id_membresia").attr("disabled", false);
                                 $("#registro").attr("disabled", false);
-                                $("#renovar").attr("disabled", true);
 
                             } else if (datos.success == 2) {
                                 $("#respuesta").html(datos.message);
@@ -224,8 +223,7 @@
                                 $("#fono").attr("disabled", true);
                                 $("#contrasena").attr("disabled", true);
                                 $("#confirmar_contrasena").attr("disabled", true);
-                                $("#imagen").attr("disabled", true);
-                                $("#registro").attr("disabled", true);
+                                $("#formFile").attr("disabled", true);
                                 $("#id_membresia").attr("disabled", true);
                                 $("#registro").attr("disabled", true);
                             } else if (datos.success == 3) {
@@ -238,8 +236,7 @@
                                 $("#fono").attr("disabled", true);
                                 $("#contrasena").attr("disabled", true);
                                 $("#confirmar_contrasena").attr("disabled", true);
-                                $("#imagen").attr("disabled", true);
-                                $("#registro").attr("disabled", true);
+                                $("#formFile").attr("disabled", true);
                                 $("#id_membresia").attr("disabled", true);
                                 $("#registro").attr("disabled", true);
                             }

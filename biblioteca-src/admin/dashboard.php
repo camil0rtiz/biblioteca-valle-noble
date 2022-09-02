@@ -3,16 +3,28 @@
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    if (isset($_GET['id']) && isset($_GET['id_membresia'])) {
 
-        require_once('../includes/functions.php');
-        $id_membresia = $_GET['id_membresia'];
-        $id = $_GET['id'];
+    if($_GET['button'] == 'habilitar'){
+        if (isset($_GET['id']) && isset($_GET['id_membresia'])) {
 
-        if (cambiar_estado_vecino($id, $id_membresia)  == 1) {
-            header('Location: dashboard.php?msg=1');
-        } else {
-            header('Location: dashboard.php?msg=2');
+            require_once('../includes/functions.php');
+            $id_membresia = $_GET['id_membresia'];
+            $id = $_GET['id'];
+    
+            if (cambiar_estado_vecino($id, $id_membresia)  == 1) {
+                header('Location: dashboard.php?msg=1');
+            } 
+        }
+    }elseif($_GET['button'] == 'deshabilitar'){
+        
+        if (isset($_GET['id'])) {
+
+            require_once('../includes/functions.php');
+            $id = $_GET['id'];
+            
+            if (deshabilitar_vecino($id) == 1){
+                header('Location: dashboard.php');
+            }
         }
     }
 }
@@ -87,7 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                         <form action="dashboard.php" method="get">
                                             <input type="hidden" name="id" id="id" value="<?php echo $vecino['id_usuario']; ?>"> 
                                             <input type="hidden" name="id_membresia" id="id_membresia" value="<?php echo $vecino['id_membresia']; ?>">
-                                            <button type="submit" class="btn btn-primary">habilitar</button>
+                                            <input type="hidden" name="button" value="habilitar">
+                                            <button type="submit" class="btn btn-primary">Habilitar</button>
                                         </form>
                                         </td>
                                     </tr>
@@ -99,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 <div class="card mt-4">
                     <div class="card-header">
                         <i class="fas fa-table me-1"></i>
-                        Renovar subcripciones vencidad
+                        Renovar subcripciones vencidas
                     </div>
                     <div class="card-body">
                         <table id="datatablesSimple1" class="table table-striped display responsive nowrap" style="width:100%">
@@ -127,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                             ?></td>
                                         <td>
                                             <a type="button" href="renovar_membresia.php?id=<?php echo $vecino['id_usuario']; ?>& rut=<?php echo $vecino['rut']; ?> & nombre=<?php echo $vecino['nombre']; ?> 
-                                        & ape_pa=<?php echo $vecino['apellido_paterno']; ?> & ape_ma=<?php echo $vecino['apellido_materno']; ?> & fecha=<?php echo $vecino['fecha_vencimiento']; ?>" name="renovar_membresia" class="btn btn-primary">Renovar membresía</a>
+                                        & ape_pa=<?php echo $vecino['apellido_paterno']; ?> & ape_ma=<?php echo $vecino['apellido_materno']; ?> & fecha=<?php echo $vecino['fecha_vencimiento']; ?> button=renovar" name="renovar_membresia" class="btn btn-primary">Renovar membresía</a>
                                         </td>
                                     </tr>
                                 <?php } ?>
@@ -147,28 +160,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                                     <th>Rut</th>
                                     <th>Nombre</th>
                                     <th>Apellidos</th>
-                                    <th>Dirección</th>
-                                    <th>Teléfono</th>
-                                    <th>Email</th>
-                                    <th>Comprobante de pago</th>
+                                    <th>fecha de vencimiento</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $vecinos = listar_vecinos();
-                                foreach ($vecinos as $vecino) {}
-                                ?>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                foreach ($vecinos as $vecino) {
+                                    if($vecino['fecha_vencimiento'] < date('Y-m-d')){
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $vecino['rut']; ?></td>
+                                            <td><?php echo $vecino['nombre']; ?></td>
+                                            <td><?php echo $vecino['apellido_paterno'] . ' ' . $vecino['apellido_materno']; ?></td>
+                                            <td><?php
+                                            echo date("d-m-Y", strtotime($vecino['fecha_vencimiento']));
+                                            ?></td>
+                                            <td><a type="button" href="dashboard.php?id=<?php echo $vecino['id_usuario']; ?> & button=deshabilitar" class="btn btn-primary">Deshabilitar vecino</a></td>
+                                        </tr>
+                                <?php }
+                                }?>
+                                    
                             </tbody>
                         </table>
                     </div>
