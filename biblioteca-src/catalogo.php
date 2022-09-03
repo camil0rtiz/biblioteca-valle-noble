@@ -123,7 +123,32 @@
     </head>
     <body class="sb-nav-fixed">
         <!-- menu -->
-        <?php include 'menu.php'; ?>
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="index.php">Biblioteca PHP</a>
+            <!-- Navbar list -->
+            <li class="nav-link">
+              <a class="nav-link ps-3 blanco" href="catalogo.php">Buscar</a>
+            </li>
+            <li class="nav-link">
+              <a class="nav-link ps-3 blanco" href="registro.php">Registro</a>
+            </li>
+            <!--
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="#!">Logout</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            -->
+        </nav>
         <!-- endmenu -->
 
         <div class="container">
@@ -159,10 +184,17 @@
                     echo '
                         <p class="search-results-count">'.count($libros).' resultados encontrados</p>';
                             foreach ($libros as $libro){
+                                //var_dump($libro);
                             echo '
                             <section class="search-result-item">
-                                <a class="image-link" href="#"><img class="image" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/vintage-book-cover-template-design-46e27bb5bb18d1354f5acc1d96454f60_screen.jpg?ts=1637015775">
-                                </a>
+                                <a class="image-link" href="#">';
+                                if (strlen($libro[3] == 0 || $libro[3] == NULL)){
+                                    echo '<img src="../static/img/libros/defecto.jpg" height="280" width="200" alt="..." class="img-thumbnail">';
+                                }
+                                else {
+                                    echo '<img src="../static/img/libros/'.$libro[3].'" height="280" width="200" alt="..." class="img-thumbnail">';
+                                }
+                                echo '</a>
                                 <div class="search-result-item-body">
                                     <div class="row">
                                         <div class="col-sm-9">
@@ -211,8 +243,14 @@
                             foreach ($libros as $libro){
                             echo '
                             <section class="search-result-item">
-                                <a class="image-link" href="#"><img class="image" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/vintage-book-cover-template-design-46e27bb5bb18d1354f5acc1d96454f60_screen.jpg?ts=1637015775">
-                                </a>
+                                <a class="image-link" href="#">';
+                                if (strlen($libro[3] == 0 || $libro[3] == NULL)){
+                                    echo '<img src="../static/img/libros/defecto.jpg" height="280" width="200" alt="..." class="img-thumbnail">';
+                                }
+                                else {
+                                    echo '<img src="../static/img/libros/'.$libro[3].'" height="280" width="200" alt="..." class="img-thumbnail">';
+                                }
+                                echo '</a>
                                 <div class="search-result-item-body">
                                     <div class="row">
                                         <div class="col-sm-9">
@@ -256,8 +294,14 @@
                             foreach ($libros as $libro){
                             echo '
                             <section class="search-result-item">
-                                <a class="image-link" href="#"><img class="image" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/vintage-book-cover-template-design-46e27bb5bb18d1354f5acc1d96454f60_screen.jpg?ts=1637015775">
-                                </a>
+                                <a class="image-link" href="#">';
+                                if (strlen($libro[6] == 0 || $libro[6] == NULL)){
+                                    echo '<img src="../static/img/libros/defecto.jpg" height="280" width="200" alt="..." class="img-thumbnail">';
+                                }
+                                else {
+                                    echo '<img src="../static/img/libros/'.$libro[6].'" height="280" width="200" alt="..." class="img-thumbnail">';
+                                }
+                                echo '</a>
                                 <div class="search-result-item-body">
                                     <div class="row">
                                         <div class="col-sm-9">
@@ -276,13 +320,8 @@
                     }
 
                     if (isset($_GET['cat']) && !isset($_GET['titulo'])){
-                        if ($_GET['cat'] == -1){
-                            $libros = listar_libros();
-                        }
-                        else{
-                            $libros = listar_todos_libros_categoria($_GET['cat']);
-                        }
-                        
+                        $libros = listar_todos_libros_categoria($_GET['cat'], $_GET['cat']);
+                      
                     echo '
                         <div class="col-md-3 col-md-push-9">
                             <p class="text-muted fs-mini">Categorias:</p>
@@ -307,10 +346,17 @@
                         echo '
                         <p class="search-results-count">'.count($libros).' resultados encontrados</p>';
                             foreach ($libros as $libro){
+                                
                             echo '
                             <section class="search-result-item">
-                                <a class="image-link" href="#"><img class="image" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/vintage-book-cover-template-design-46e27bb5bb18d1354f5acc1d96454f60_screen.jpg?ts=1637015775">
-                                </a>
+                                <a class="image-link" href="#">';
+                                if (strlen($libro[3]) == 0 || $libro[3] == NULL){
+                                    echo '<img src="../static/img/libros/defecto.jpg" height="280" width="200" alt="..." class="img-thumbnail">';
+                                }
+                                else {
+                                    echo '<img src="../static/img/libros/'.$libro[3].'" height="280" width="200" alt="..." class="img-thumbnail">';
+                                }
+                                echo '</a>
                                 <div class="search-result-item-body">
                                     <div class="row">
                                         <div class="col-sm-9">
