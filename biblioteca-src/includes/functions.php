@@ -36,7 +36,7 @@ function buscar_libro_by_id($id_libro){
     $stmt->bind_param('i', $id_libro);
     $stmt->execute();
     $result = $stmt->get_result();
-    $row = $result->fetch_all();
+    $row = $result->fetch_row();
     $stmt->close();
     $conn->close();
     return $row;
@@ -252,24 +252,68 @@ function membresia_vencida($id){
 }
 
 
-function agregar_libro($titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro){
+function agregar_libro($titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $carpeta_destino ,$img_libro){
     include 'db.php';
+    $fecha = new DateTime();
+    $random_time = $fecha->getTimestamp();
+    $path_completo = $carpeta_destino.$random_time.'-'.$img_libro; // localizacion de la imagen de portada
+    $portada_libro = $random_time.'-'.$img_libro;
+    move_uploaded_file($_FILES['img_libro']['tmp_name'], $path_completo);
+    //echo var_dump($_FILES);
     $sql_query = "INSERT INTO libro(titulo_libro, autor_libro, isbn, stock, dewey, foto_portada) VALUES (?,?,?,?,?,?);";
     $stmt = $conn->prepare($sql_query);
-    $stmt->bind_param('ssissss', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $img_libro);
+    $stmt->bind_param('ssssis', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $portada_libro);
     $stmt->execute();
     $stmt->close();
     $conn->close();
+    
     return 1;
 }
 
 function editar_libro($id_libro, $titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro){
+    if ($img_libro == '0'){
+        include 'db.php';
+        $sql_query = "UPDATE libro SET titulo_libro = ?, autor_libro = ?, isbn = ?, stock = ?, dewey = ? WHERE id_libro = ?;";
+        $stmt = $conn->prepare($sql_query);
+        $stmt->bind_param('sssssi', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $id_libro);
+        $stmt->execute();
+        $stmt->close();
+        $conn->close();
+        return 1;
+    }
+    else{
+        try {
+            include 'db.php';
+            $sql_query = "UPDATE libro SET titulo_libro = ?, autor_libro = ?, isbn = ?, stock = ?, dewey = ?, foto_portada = ? WHERE id_libro = ?;";
+            $fecha = new DateTime();
+            $carpeta_destino = $_SERVER['DOCUMENT_ROOT'] . '/static/img/libros/';
+            $random_time = $fecha->getTimestamp();
+            $path_completo = $carpeta_destino.$random_time.'-'.$img_libro; // localizacion de la imagen de portada
+            $portada_libro = $random_time.'-'.$img_libro;
+            move_uploaded_file($_FILES['img_libro']['tmp_name'], $path_completo);
+            $stmt = $conn->prepare($sql_query);
+            $stmt->bind_param('sssisss', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $portada_libro, $id_libro);
+            $stmt->execute();
+            $stmt->close();
+            $conn->close();
+            return 1;
+        } catch (\Throwable $th) {
+            return 0;
+        }
+        
+    }
+}
+
+/*
+function agregar_ejemplar($id_libro, $cantidad, $isbn_libro, $dewey_libro){
     include 'db.php';
-    $sql_query = "UPDATE libro SET titulo_libro = ?, autor_libro = ?, isbn = ?, stock = ?, dewey = ?, foto_portada = ? WHERE id_libro = ?;";
+    $sql_query = "UPDATE libro SET stock += ? WHERE id = ?;";
     $stmt = $conn->prepare($sql_query);
-    $stmt->bind_param('sssisss', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $img_libro, $id_libro);
+    $stmt->bind_param('ii', $cantidad, $id_libro);
     $stmt->execute();
     $stmt->close();
-    $conn->close();
-    return 1;
+    $sql_query2 = "INSERT INTO "
+    $stmt2 = $conn->prepare($sql_query2);
 }
+*/
+?>
