@@ -1,92 +1,109 @@
-# biblioteca-php
+ ~~Nombre del Proyecto~~
 
-Proyecto Biblioteca para Taller de Desarrollo
+~~Descripción del proyecto..., que resuelve, que hace, a que publico está dirigido, características del sistema, etc~~
 
-## Getting started
+## Software stack
+El proyecto biblioteca-valle-noble es una aplicación web que corre sobre el siguiente software:
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- ~~Debian GNU/Linux 10 Buster - Debian GNU/Linux 9 Jessie - Ubuntu 20.04 - Ubuntu 19.10~~
+- ~~Apache 2.4.38~~
+- ~~Nginx 1.14.2~~
+- ~~PHP 7.3 (ext: curl, gd, mbstring, mysql, pgsql, xml, zip)~~
+- ~~Ruby 2.5~~
+- ~~Python 3.7.3~~
+- ~~NodeJS 13.11.0~~
+- ~~Base de Datos MySQL 5 - PostgreSQL 11~~
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Configuraciones de Ejecución para Entorno de Desarrollo/Produccción
 
-## Add your files
+~~Indicar instrucciones de como obtener una copia del proyecto para ejecutarlo localmente.~~
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### Credenciales de Base de Datos y variables de ambiente
+- Editar el archivo `src/env.php`
+- **IMPORTANTE**: Por razones de Seguridad **NUNCA** debes guardar las credenciales y subirlas al repositorio
+
+
+### ~~Docker, Máquina Virtual, Sistema Operativa~~
+Con una terminal situarse dentro del directorio raiz donde fue clonado este repositorio, por ej: `~/git/mi-proyecto/`.
+Una vez situado en la raiz del proyecto, dirigirse al directorio `docker` y ejecutar lo siguiente para construir la imagen docker:
+
+```bash
+docker build -t mi-proyecto:version1.0 .
 
 ```
-cd existing_repo
-git remote add origin http://gitlabtrans.face.ubiobio.cl:8081/alejandro.farias1801/biblioteca-php.git
-git branch -M main
-git push -uf origin main
+
+Una vez construida la imagen, lanzar un contenedor montando un volumen que contenga el código del repositorio, en el directorio /var/www/html del contenedor.
+
+```bash
+docker run --rm -ti -p 80:80 -v /home/usuario/git/mi-proyecto/:/var/www/html mi-proyecto:version1.0 bash
 ```
 
-## Integrate with your tools
 
-- [ ] [Set up project integrations](http://gitlabtrans.face.ubiobio.cl:8081/alejandro.farias1801/biblioteca-php/-/settings/integrations)
+Iniciar el servicio de Apache Http Server
 
-## Collaborate with your team
+```bash
+service apache2 start
+```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+Iniciar el servicio de Nginx
 
-## Test and Deploy
+```bash
+service nginx start
+```
 
-Use the built-in continuous integration in GitLab.
+Iniciar el servicio de NodeJS
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+```bash
+nodejs index.js
+```
 
-***
 
-# Editing this README
+### Instalar dependencias del proyecto
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Cambiar al directorio web document root (Apache) del contenedor:
+```bash
+cd /var/www/html
+```
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+Instalar las dependencias del proyecto con composer
+```bash
+composer install
+```
 
-## Name
-Choose a self-explaining name for your project.
+Cambiar permisos para permitir la correcta ejecución de la aplicación en entorno local
+```bash
+chmod -R 777 web/assets/ logs/ cache/
+```
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Ir a un navegador web y ejecutar la siguiente url [mi-proyecto](http://localhost/mi-carpeta/index.php)
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## Construido con
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+- ~~[Laravel](https://laravel.com/) - The web framework used~~
+- ~~[Symfony](https://symfony.com/) - The web framework used~~
+- ~~[Rails](https://rubyonrails.org/) - The web framework used~~
+- ~~[Django](https://www.djangoproject.com/) - The web framework used~~
+- ~~[Composer](https://getcomposer.org/) - Dependency Management~~
+- ~~[Pipenv](https://pipenv.pypa.io/en/latest/) - Dependency Management~~
+- ~~[Rubygem](https://rubygems.org/) - Dependency Management~~
+- ~~[Bundler](https://bundler.io/) - Dependency Management~~
+- ~~[NPM](https://www.npmjs.com/) - Dependency Management~~
+- ~~[Yarn](https://yarnpkg.com/) - Dependency Management~~
+- ~~[Bootstrap 4](https://getbootstrap.com/) - HTML, CSS, and JS Frontend Framework~~
+- ~~[AdminLTE Bootstrap](https://adminlte.io/) - Admin Dashboard Template~~
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+## Licencia
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Este proyecto fue construido con la licencia AAA, - ver [LICENSE.md](LICENSE.md) para mayor información
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+## Contribuir al Proyecto
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+- Por favor lea las instrucciones para contribuir al proyecto en [CONTRIBUTING.md](CONTRIBUTING.md)
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## Agradecimientos
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+- Basado en el código de .....
+- etc
 
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
