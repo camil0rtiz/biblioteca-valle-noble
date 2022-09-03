@@ -1,22 +1,27 @@
 <?php
-
+include '../includes/functions.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once('../includes/functions.php');
-    if (
-        isset($_POST['titulo_libro']) && isset($_POST['id_categoria']) && isset($_POST['cantidad_libro']) && isset($_POST['isbn_libro'])) {
+    if (isset($_POST['titulo_libro']) && isset($_POST['id_categoria']) && isset($_POST['cantidad_libro']) && isset($_POST['isbn_libro']) && isset($_POST['dewey_libro'])
+    && isset($_POST['autor_libro'])) {
         $titulo_libro = $_POST['titulo_libro'];
         $id_categoria = $_POST['id_categoria'];
         $cantidad_libro = $_POST['cantidad_libro'];
         $isbn_libro = $_POST['isbn_libro'];
-        $autor = $_POST['autor_libro'];
-        $img_libro = ""; //$_FILES['direccion'];
+        $dewey_libro = $_POST['dewey_libro'];
+        $autor_libro = $_POST['autor_libro'];
+        $img_libro = $_FILES['img_libro']['name']; //$_FILES['direccion'];
+        $tamanio_img = $_FILES['img_libro']['size']; // tamaño en memoria
+        $formato_img = $_FILES['img_libro']['type'];
+        $carpeta_guardado = $_SERVER['DOCUMENT_ROOT'] . '/static/img/libros/';
 
-        if (agregar_libro($titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro) == 1) {
-            header('Location: agregar_libro.php?msg=1');
-        } else {
-            header('Location: agregar_libro.php?msg=0');
+        $actualizado = editar_libro($id_libro, $titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro);
+        if ($actualizado == 1) {
+            header('Location: listar_libros.php?msg=1');
+            //echo "libro agregado con exito";
         }
-        
+        else {
+            header('Location: listar_libros.php?msg=0');
+        }
     }
 }
 ?>
@@ -68,30 +73,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Registrar nuevo libro
                     </div>
                     <div class="card-body">
-                        <form action="" method="post" id="formMain">
+                        <form action="agregar_libro.php" method="post" enctype="multipart/form-data">
+                            
                             <div class="row mb-3 form-group">
-                                <div class="col-md-6">
-                                    <label for="">Título del nuevo libro (si este aún no existe en la base de datos)</label>
+                                <div class="col-md-12">
+                                    <label for="">Título del nuevo libro</label>
                                     <input type="text" name="titulo_libro" id="tituloInput" class="form-control" required>
                                 </div> 
+                                <!--
                                 <div class="col-md-6">
                                     <label for="">Agregue un nuevo ejemplar a un libro existente</label>                         
                                     <select name="titulo_libro" id="listadoTitulo" class="form-control" required>
                                         <?php
-                                        include '../includes/functions.php';
+                                        /*
+                                        //include '../includes/functions.php';
                                         $libros = listar_libros();
                                         echo '<option value="0">Seleccione un libro</option>';
                                         foreach ($libros as $libro) {
-                                            echo '<option value="'.$libro[5].'">'.$libro[1].'</option>';
+                                            echo '<option value="'.$libro[5].'">'.$libro[0].'</option>';
                                         }
+                                        */
                                         ?>
                                     </select>
-                                </div>                            
+                                </div> 
+                                -->                           
                             </div>
                             <div class="row form-group">
                                 <div class="mb-3">
                                     <label for="">Categoría </label>
-                                    <select name="id_categoria" class="form-control" required>
+                                    <select name="id_categoria" class="form-control" id="categoria_libroInput" required>
                                         <?php
                                         //include '../includes/functions.php';
                                         $categorias = listar_categorias();
@@ -105,23 +115,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Cantidad</label>
-                                <input type="number" name="cantidad_libro" class="form-control" placeholder="1" required>
+                                <input type="number" name="cantidad_libro" id="cantidad_libroInput" class="form-control" placeholder="1" required>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">ISBN</label>
-                                <input type="text" name="isbn_libro" id="a_paterno" class="form-control" placeholder="Ej. 978-956-11-2987-0" required>
+                                <input type="text" name="isbn_libro" id="isbn_libroInput" class="form-control" placeholder="Ej. 978-956-11-2987-0" required>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Dewey (completo)</label>
-                                <input type="text" name="dewey_libro" id="a_paterno" class="form-control" placeholder="Ej. 978-956-11-2987-0" required>
+                                <input type="text" name="dewey_libro" id="dewey_libroInput" class="form-control" placeholder="Ej. 978-956-11-2987-0" required>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Autor</label>
-                                <input type="text" name="autor_libro" id="a_paterno" class="form-control" required>
+                                <input type="text" name="autor_libro" id="autor_libroInput" class="form-control" required>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Imagen de portada <small>(Tamaño máximo: <strong>280x200</strong>, formatos aceptados: <strong>jpg</strong>, <strong>jpeg</strong> y <strong>png</strong>)</small></label>
-                                <input type="file" name="img_libro" accept="image/png, image/jpeg, image/jpg" class="form-control" required>
+                                <input type="file" name="img_libro" id="img_libroInput" accept="image/png, image/jpeg, image/jpg" class="form-control" required>
                             </div>
                             <input type="hidden" value="habilitado" name="estado">
                             <button type="submit" name="registro" class="w-100 btn btn-lg btn-outline-primary">Registrar libro</button>
@@ -157,45 +167,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="../static/js/datatables-simple-demo.js"></script>
     <script src="../static/js/rut.js"></script>
     <script src="../static/js/validar_contrasenas.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('#search').focus()
-
-            $('#search').on('keyup', function(){
-                var search = $('#search').val()
-                $.ajax({
-                    type: 'POST',
-                    url: 'buscar_libro.php',
-                    data: {'search': search},
-                    beforeSend: function(){
-                        $('#result').html('<img src="img/pacman.gif">')
-                    }
-                })
-            .done(function(resultado){
-                $('#result').html(resultado)
-            })
-            .fail(function(){
-                alert('Hubo un error');
-            })
-            })
-    })
-    </script>
     <script type="text/javascript">
         // Accedemos al botón
 var tituloInput = document.getElementById('tituloInput');
 var listadoTitulo = document.getElementById('listadoTitulo');
+var img_libroInput = document.getElementById('img_libroInput');
+var categoria_libroInput = document.getElementById('categoria_libroInput');
+var autor_libroInput = document.getElementById('autor_libroInput');
+
 
 // evento para el input radio del "si"
 document.getElementById('listadoTitulo').addEventListener('input', function() {
     if (this.value.length > 0){
         tituloInput.disabled = true;
-        //console.log('Vamos a habilitar el input text');
+        img_libroInput.disabled = true;
+        categoria_libroInput.disabled = true;
+        autor_libroInput.disabled = true;
     }
     if (this.value == 0){
         tituloInput.disabled = false;
+        img_libroInput.disabled = false;
+        categoria_libroInput.disabled = false;
+        autor_libroInput.disabled = false;
     }
     else {
         tituloInput.disabled = true;
+        img_libroInput.disabled = true;
+        categoria_libroInput.disabled = true;
+        autor_libroInput.disabled = true;
     }
   //console.log('Vamos a habilitar el input text');
 });
@@ -207,7 +206,7 @@ document.getElementById('tituloInput').addEventListener('input', function(){
     else {
         listadoTitulo.disabled = false;
     }
-})
+});
     </script>
 </body>
 
