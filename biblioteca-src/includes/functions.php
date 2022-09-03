@@ -4,7 +4,7 @@
 /*funcion para listar todo el catalogo de libros */
 function listar_libros(){
     include 'db.php';
-    $sql_query = "SELECT titulo_libro, autor_libro, dewey, isbn, stock, id_libro FROM libro;";
+    $sql_query = "SELECT titulo_libro, autor_libro, dewey, isbn, stock, id_libro, foto_portada FROM libro;";
     $stmt = $conn->prepare($sql_query);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -17,7 +17,7 @@ function listar_libros(){
 /* funcion para buscar libro segun la cadena de texto ingresada en el campo de busqueda */
 function buscar_libro($termino){
     include 'db.php';
-    $sql_query = "SELECT titulo_libro, autor_libro, stock FROM libro WHERE titulo_libro LIKE CONCAT('%',?,'%') ORDER BY stock DESC;";
+    $sql_query = "SELECT titulo_libro, autor_libro, stock, foto_portada FROM libro WHERE titulo_libro LIKE CONCAT('%',?,'%') ORDER BY stock DESC;";
     $stmt = $conn->prepare($sql_query);
     $stmt->bind_param('s', $termino);
     $stmt->execute();
@@ -63,7 +63,7 @@ function listar_libros_by_categoria($cod_dewey, $titulo){
         return $todo_by_termino;// Retorna todos los libros
     }
     else {
-        $sql_query = "SELECT titulo_libro, autor_libro, stock FROM libro, tiene, categoria WHERE categoria.cod_dewey = ? AND categoria.cod_dewey = tiene.cod_dewey AND tiene.id_libro = libro.id_libro AND libro.titulo_libro LIKE CONCAT('%',?,'%');";
+        $sql_query = "SELECT titulo_libro, autor_libro, stock, foto_portada FROM libro, tiene, categoria WHERE categoria.cod_dewey = ? AND categoria.cod_dewey = tiene.cod_dewey AND tiene.id_libro = libro.id_libro AND libro.titulo_libro LIKE CONCAT('%',?,'%');";
         $stmt = $conn->prepare($sql_query);
         $stmt->bind_param('is', $cod_dewey, $titulo);
         $stmt->execute();
@@ -76,17 +76,24 @@ function listar_libros_by_categoria($cod_dewey, $titulo){
 }
 
 /* funcion para listar todos los libros segun categoria, sin buscarlos */
-function listar_todos_libros_categoria($cod_dewey){
+function listar_todos_libros_categoria($cod_dewey, $cat){
     include 'db.php';
-    $sql_query = "SELECT titulo_libro, autor_libro, stock FROM libro, tiene, categoria WHERE categoria.cod_dewey = ? AND categoria.cod_dewey = tiene.cod_dewey AND tiene.id_libro = libro.id_libro;";
-    $stmt = $conn->prepare($sql_query);
-    $stmt->bind_param('i', $cod_dewey);
+    if ($cat == -1){
+        $sql_query = "SELECT titulo_libro, autor_libro, stock, foto_portada FROM libro;";
+        $stmt = $conn->prepare($sql_query);
+    }
+    else{
+        $sql_query = "SELECT titulo_libro, autor_libro, stock, foto_portada FROM libro, tiene, categoria WHERE categoria.cod_dewey = ? AND categoria.cod_dewey = tiene.cod_dewey AND tiene.id_libro = libro.id_libro;";
+        $stmt = $conn->prepare($sql_query);
+        $stmt->bind_param('i', $cod_dewey);
+    }
     $stmt->execute();
     $result = $stmt->get_result();
     $row = $result->fetch_all();
     $stmt->close();
     $conn->close();
     return $row;
+
 }
 
 function obtener_categoria_libro($id_libro){

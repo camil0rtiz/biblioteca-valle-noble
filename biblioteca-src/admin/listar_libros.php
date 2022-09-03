@@ -77,66 +77,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $libros = listar_libros();
 
                                 foreach ($libros as $libro) {
-                                ?>
+                                    echo '
 
                                     <tr>
                                         <!-- titulo_libro, autor_libro, dewey, isbn, stock FROM libro;";-->
-                                        <td><?php echo $libro[0]; ?></td>
+                                        <td>'.$libro[0].'</td>
                                         <td></td>
-                                        <td><?php echo $libro[1]; ?></td>
-                                        <td><?php echo $libro[2]; ?></td>
-                                        <td><?php echo $libro[3]; ?></td>
-                                        <td><?php echo $libro[4]; ?></td>
+                                        <td>'.$libro[1].'</td>
+                                        <td>'.$libro[2].'</td>
+                                        <td>'.$libro[3].'</td>
+                                        <td>'.$libro[4].'</td>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $vecino['id_usuario']; ?>">
+                                            <a type="button" class="btn btn-primary" href="actualizar_libro.php?id_libro='.$libro[5].'">
                                                 Editar
-                                            </button>
-                                            <div class="modal fade" id="exampleModal<?php echo $vecino['id_libro']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-lg">
-                                                    <div class="modal-content">
-                                                    <form action="" method="post">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Editar libro</h5>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <input type="hidden" name="id" id="id" class="form-control" value="<?php echo $vecino['id_usuario']; ?>" required>
-                                                            <div class="mb-3 form-group">
-                                                                <label for="">Título</label>
-                                                                <input type="text" name="nombre" id="nombre" class="form-control" value="<?php echo $libro[0]; ?>" required>
-                                                            </div>
-                                                            <div class="mb-3 form-group">
-                                                                <label for="">Categoría</label>
-                                                                <input type="text" name="a_paterno" id="a_paterno" class="form-control" value="" required>
-                                                            </div>
-                                                            <div class="mb-3 form-group">
-                                                                <label for="">Autor</label>
-                                                                <input type="text" name="a_materno" id="a_materno" class="form-control" value="<?php echo $libro[1]; ?>" required>
-                                                            </div>
-                                                            <div class="mb-3 form-group">
-                                                                <label for="">Dewey</label>
-                                                                <input type="email" name="correo" id="correo" class="form-control" value="<?php echo $libro[2]; ?>" required>
-                                                            </div>
-                                                            <div class="mb-3 form-group">
-                                                                <label for="">ISBN</label>
-                                                                <input type="text" name="direccion" id="direccion" class="form-control" value="<?php echo $libro[3]; ?>" required>
-                                                            </div>
-                                                            <div class="mb-3 form-group">
-                                                                <label for="">Stock</label>
-                                                                <input type="number" name="fono" id="fono" class="form-control" value="<?php echo $libro[4]; ?>" min="1" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer"> 
-                                                            <input type="submit" class="btn btn-primary" value="Guardar">
-                                                            <!-- <button type=" button" class="btn btn-secondary" data-bs-dismiss="modal"">Cerrar</button> -->
-                                                        </div>
-                                                    </form>       
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            </a>
                                         </td>
-                                    </tr>
-                                <?php
+                                    </tr>';
                                 } ?>
                                 </tbody>
                             </table>
