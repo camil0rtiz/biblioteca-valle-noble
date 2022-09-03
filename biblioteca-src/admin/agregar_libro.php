@@ -14,8 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $formato_img = $_FILES['img_libro']['type'];
         $carpeta_guardado = $_SERVER['DOCUMENT_ROOT'] . '/static/img/libros/';
 
-        $actualizado = editar_libro($id_libro, $titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro);
-        if ($actualizado == 1) {
+        $agregado = agregar_libro($titulo_libro, $id_categoria, $cantidad_libro, $isbn_libro, $dewey_libro, $autor_libro, $carpeta_guardado ,$img_libro);
+        if ($agregado == 1) {
             header('Location: listar_libros.php?msg=1');
             //echo "libro agregado con exito";
         }
