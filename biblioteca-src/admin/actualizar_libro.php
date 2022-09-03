@@ -11,13 +11,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $autor_libro = $_POST['autor_libro'];
         $id_libro = $_POST['id_libro'];
         if (isset($_FILES['img_libro']['name']) && $_FILES['img_libro']['name'] > 0){
-            echo var_dump($_FILES['img_libro']['name']);
+            //echo var_dump($_FILES['img_libro']['name']);
             $img_libro = $_FILES['img_libro']['name']; //$_FILES['direccion'];
             $tamanio_img = $_FILES['img_libro']['size']; // tamaño en memoria
             $formato_img = $_FILES['img_libro']['type'];
             $carpeta_guardado = $_SERVER['DOCUMENT_ROOT'] . '/static/img/libros/';
             $x = editar_libro($id_libro, $titulo_libro, $id_categoria, $stock_libro, $isbn_libro, $dewey_libro, $autor_libro, $img_libro);
-            //header('Location: listar_libros.php?msg=1');
+            header('Location: listar_libros.php?msg=1');
 
         }
         else{
@@ -40,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
         $categorias = listar_categorias();
         $id_libro = $_GET['id_libro'];
         $libro = buscar_libro_by_id($id_libro);
+        $categoria_libro = obtener_categoria_libro($id_libro);
+        echo var_dump($categoria_libro);
         include 'partes/head.php';
         echo '
 <body class="sb-nav-fixed">';
@@ -64,7 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Categoría</label>
-                                <select name="id_categoria" class="form-control" id="categoria_libroInput" required>';
+                                <select name="id_categoria" class="form-control" id="categoria_libroInput" required>
+                                    <option value="'.$categoria_libro[0].'" disabled>'.$categoria_libro[1].'</option>';
+
                                 foreach ($categorias as $categoria) {
                                     echo '<option value="'.$categoria[1].'">'.$categoria[2].'</option>';
                                 }
@@ -100,6 +104,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
                             <div class="mb-3 form-group">
                                 <label for="">Stock</label>
                                 <input type="number" name="stock_libro" id="stock_libro" class="form-control" min="1" value="'.$libro[7].'">
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="">Estado del libro</label>
+                                <select class="form-control">
+                                    <option>Disponible</option>
+                                    <option>No disponible</option>
+                                </select>
                             </div>
                             <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Actualizar libro</button>
                             <a type="button" href="dashboard.php" name="registro" class="w-100 btn btn-lg btn-outline-danger mt-2">Atrás</a>

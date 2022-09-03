@@ -89,6 +89,19 @@ function listar_todos_libros_categoria($cod_dewey){
     return $row;
 }
 
+function obtener_categoria_libro($id_libro){
+    include 'db.php';
+    $sql_query = "SELECT categoria.cod_dewey, categoria.nombre_categoria, libro.id_libro FROM libro, tiene, categoria WHERE categoria.cod_dewey = tiene.cod_dewey AND tiene.id_libro = libro.id_libro AND libro.id_libro = ?;";
+    $stmt = $conn->prepare($sql_query);
+    $stmt->bind_param('i', $id_libro);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_row();
+    $stmt->close();
+    $conn->close();
+    return $row;
+}
+
 
 /* funcion para guardar al vecino */
 function registrar_vecino($rut, $nombre, $a_paterno, $a_materno, $correo, $direccion, $fono, $contrasena, $id_membresia, $estado,$carpeta_destino,$nombre_img){
@@ -176,7 +189,7 @@ function listar_vecinos(){
     $row = $result->fetch_all(MYSQLI_ASSOC);
     $stmt->close();
     $conn->close();
-    return $row;;
+    return $row;
 }
 
 function editar_vecino($id, $nombre, $a_paterno, $a_materno, $correo, $direccion, $fono)
@@ -261,23 +274,34 @@ function agregar_libro($titulo_libro, $id_categoria, $cantidad, $isbn_libro, $de
     move_uploaded_file($_FILES['img_libro']['tmp_name'], $path_completo);
     //echo var_dump($_FILES);
     $sql_query = "INSERT INTO libro(titulo_libro, autor_libro, isbn, stock, dewey, foto_portada) VALUES (?,?,?,?,?,?);";
+    $sql_query_relacion = "INSERT INTO tiene(cod_dewey, id_libro) VALUES (?,?);";
     $stmt = $conn->prepare($sql_query);
+    $stmt_2 = $conn->prepare($sql_query_relacion);
     $stmt->bind_param('ssssis', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $portada_libro);
+    
     $stmt->execute();
+    $last_id_libro = $stmt->insert_id;
+    $stmt_2->bind_param('ii', $id_categoria, $last_id_libro);
+    $stmt_2->execute();
     $stmt->close();
+    $stmt_2->close();
     $conn->close();
     
     return 1;
 }
-
 function editar_libro($id_libro, $titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro){
     if ($img_libro == '0'){
         include 'db.php';
         $sql_query = "UPDATE libro SET titulo_libro = ?, autor_libro = ?, isbn = ?, stock = ?, dewey = ? WHERE id_libro = ?;";
+        $sql_query_relacion = "UPDATE tiene SET cod_dewey = ? WHERE id_libro = ?;";
         $stmt = $conn->prepare($sql_query);
+        $stmt_2 = $conn->prepare($sql_query_relacion);
+        $stmt_2->bind_param('ii', $id_categoria, $id_libro);
         $stmt->bind_param('sssssi', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $id_libro);
         $stmt->execute();
+        $stmt_2->execute();
         $stmt->close();
+        $stmt_2->close();
         $conn->close();
         return 1;
     }
@@ -285,8 +309,10 @@ function editar_libro($id_libro, $titulo_libro, $id_categoria, $cantidad, $isbn_
         try {
             include 'db.php';
             $sql_query = "UPDATE libro SET titulo_libro = ?, autor_libro = ?, isbn = ?, stock = ?, dewey = ?, foto_portada = ? WHERE id_libro = ?;";
+            $sql_query_relacion = "UPDATE tiene SET cod_dewey = ? WHERE id_libro = ?;";            
             $fecha = new DateTime();
             $carpeta_destino = $_SERVER['DOCUMENT_ROOT'] . '/static/img/libros/';
+
             $random_time = $fecha->getTimestamp();
             $path_completo = $carpeta_destino.$random_time.'-'.$img_libro; // localizacion de la imagen de portada
             $portada_libro = $random_time.'-'.$img_libro;
@@ -295,6 +321,10 @@ function editar_libro($id_libro, $titulo_libro, $id_categoria, $cantidad, $isbn_
             $stmt->bind_param('sssisss', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $portada_libro, $id_libro);
             $stmt->execute();
             $stmt->close();
+            $stmt_2 = $conn->prepare($sql_query_relacion);
+            $stmt_2->bind_param('ii', $id_categoria, $id_libro);
+            $stmt_2->execute();
+            $stmt_2->close();
             $conn->close();
             return 1;
         } catch (\Throwable $th) {
