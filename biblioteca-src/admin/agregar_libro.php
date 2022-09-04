@@ -3,13 +3,13 @@ include '../includes/functions.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['titulo_libro']) && isset($_POST['id_categoria']) && isset($_POST['cantidad_libro']) && isset($_POST['isbn_libro']) && isset($_POST['dewey_libro'])
     && isset($_POST['autor_libro'])) {
-        $titulo_libro = $_POST['titulo_libro'];
-        $id_categoria = $_POST['id_categoria'];
-        $cantidad_libro = $_POST['cantidad_libro'];
-        $isbn_libro = $_POST['isbn_libro'];
-        $dewey_libro = $_POST['dewey_libro'];
-        $autor_libro = $_POST['autor_libro'];
-        $img_libro = $_FILES['img_libro']['name']; //$_FILES['direccion'];
+        $titulo_libro = strip_tags($_POST['titulo_libro']);
+        $id_categoria = strip_tags($_POST['id_categoria']);
+        $cantidad_libro = strip_tags($_POST['cantidad_libro']);
+        $isbn_libro = strip_tags($_POST['isbn_libro']);
+        $dewey_libro = strip_tags($_POST['dewey_libro']);
+        $autor_libro = strip_tags($_POST['autor_libro']);
+        $img_libro = strip_tags($_FILES['img_libro']['name']); //$_FILES['direccion'];
         $tamanio_img = $_FILES['img_libro']['size']; // tamaño en memoria
         $formato_img = $_FILES['img_libro']['type'];
         $carpeta_guardado = $_SERVER['DOCUMENT_ROOT'] . '/static/img/libros/';
@@ -73,12 +73,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Registrar nuevo libro
                     </div>
                     <div class="card-body">
-                        <form action="agregar_libro.php" method="post" enctype="multipart/form-data">
+                        <form action="agregar_libro.php" method="post" id="formulario" enctype="multipart/form-data">
                             
                             <div class="row mb-3 form-group">
                                 <div class="col-md-12">
                                     <label for="">Título del nuevo libro</label>
                                     <input type="text" name="titulo_libro" id="tituloInput" class="form-control" required>
+                                    <div id="validez_titulo"></div>
                                 </div> 
                                 <!--
                                 <div class="col-md-6">
@@ -115,11 +116,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Cantidad</label>
-                                <input type="number" name="cantidad_libro" id="cantidad_libroInput" class="form-control" placeholder="1" required>
+                                <input type="number" name="cantidad_libro" id="cantidad_libroInput" min="1" max="99" class="form-control" placeholder="1" required>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">ISBN</label>
                                 <input type="text" name="isbn_libro" id="isbn_libroInput" class="form-control" placeholder="Ej. 978-956-11-2987-0" required>
+                                <div id="validez_isbn"></div>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Dewey (completo)</label>
@@ -168,6 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="../static/js/rut.js"></script>
     <script src="../static/js/validar_contrasenas.js"></script>
     <script type="text/javascript">
+        /*
         // Accedemos al botón
 var tituloInput = document.getElementById('tituloInput');
 var listadoTitulo = document.getElementById('listadoTitulo');
@@ -206,8 +209,87 @@ document.getElementById('tituloInput').addEventListener('input', function(){
     else {
         listadoTitulo.disabled = false;
     }
-});
+});*/
     </script>
+    <script>
+        var subject = document.getElementById("isbn_libroInput").value;
+        
+        document.getElementById('isbn_libroInput').addEventListener('change', iese);
+        function iese(){
+            var subject = document.getElementById("isbn_libroInput").value;
+            var validarISBN;
+            var regex = /^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$/;
+            if (regex.test(subject)) {
+                // Remove non ISBN digits, then split into an array
+                var chars = subject.replace(/[- ]|^ISBN(?:-1[03])?:?/g, "").split("");
+                // Remove the final ISBN digit from `chars`, and assign it to `last`
+                var last = chars.pop();
+                var sum = 0;
+                var check, i;
+
+                if (chars.length == 9) {
+                    // Compute the ISBN-10 check digit
+                    chars.reverse();
+                    for (i = 0; i < chars.length; i++) {
+                        sum += (i + 2) * parseInt(chars[i], 10);
+                    }
+                    check = 11 - (sum % 11);
+                    if (check == 10) {
+                        check = "X";
+                    } else if (check == 11) {
+                        check = "0";
+                    }
+                } 
+                else {
+                    // Compute the ISBN-13 check digit
+                    for (i = 0; i < chars.length; i++) {
+                        sum += (i % 2 * 2 + 1) * parseInt(chars[i], 10);
+                    }
+                    check = 10 - (sum % 10);
+                    if (check == 10) {
+                        check = "0";
+                    }
+                }
+
+                if (check == last) {
+                    document.getElementById("validez_isbn").innerHTML = "<p>El ISB ingresado es válido</p>";
+                    validarIBSN = true;
+                    //alert("Valid ISBN");
+                } 
+                else {
+                    document.getElementById("validez_isbn").innerHTML = "<p>El ISB ingresado es inválido</p>";
+                    //alert("Invalid ISBN check digit");
+                    validarIBSN = false;
+                }
+            } 
+            else {
+                document.getElementById("validez_isbn").innerHTML = "<p>El ISB ingresado es inválido</p>";
+                //alert("Invalid ISBN");
+                validarIBSN = false;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function(){
+            document.getElementById("formulario").addEventListener('submit', validarFormulario);
+        });
+        function validarFormulario(evento){
+            evento.preventDefault();
+            var titulo_libro = document.getElementById("tituloInput").value;
+            
+            if (titulo_libro.length == 0){
+                document.getElementById("validez_titulo").innerHTML = "<p>El título de libro no puede estar vacío</p>";
+                return;
+            }
+            if(validarIBSN == false){
+                document.getElementById("validez_isbn").innerHTML = "<p>El ISBN no puede ser inválido</p>";
+                return;
+            }
+            this.submit();
+
+        }
+    </script>
+    
+
 </body>
 
 </html>
