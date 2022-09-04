@@ -3,13 +3,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     include '../includes/functions.php';
     if (isset($_POST['titulo_libro']) && isset($_POST['id_categoria']) && isset($_POST['stock_libro']) && isset($_POST['isbn_libro']) && isset($_POST['dewey_libro'])
     && isset($_POST['autor_libro'])){
-        $titulo_libro = $_POST['titulo_libro'];
-        $id_categoria = $_POST['id_categoria'];
-        $stock_libro = $_POST['stock_libro'];
-        $isbn_libro = $_POST['isbn_libro'];
-        $dewey_libro = $_POST['dewey_libro'];
-        $autor_libro = $_POST['autor_libro'];
-        $id_libro = $_POST['id_libro'];
+        $titulo_libro = strip_tags($_POST['titulo_libro']);
+        $id_categoria = strip_tags($_POST['id_categoria']);
+        $stock_libro = strip_tags($_POST['stock_libro']);
+        $isbn_libro = strip_tags($_POST['isbn_libro']);
+        $dewey_libro = strip_tags($_POST['dewey_libro']);
+        $autor_libro = strip_tags($_POST['autor_libro']);
+        $id_libro = strip_tags($_POST['id_libro']);
         if (isset($_FILES['img_libro']['name']) && $_FILES['img_libro']['name'] > 0){
             //echo var_dump($_FILES['img_libro']['name']);
             $img_libro = $_FILES['img_libro']['name']; //$_FILES['direccion'];
@@ -58,11 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
                         Actualizar libro
                     </div>
                     <div class="card-body">
-                        <form action="actualizar_libro.php" method="POST" enctype="multipart/form-data">
+                        <form action="actualizar_libro.php" method="POST" id="formulario" enctype="multipart/form-data">
                             <input type="hidden" name="id_libro" id="id_libro" class="form-control" value="'.$id_libro.'">
                             <div class="mb-3 form-group">
                                 <label for="">Título</label>
-                                <input type="text" name="titulo_libro" id="titulo_libro" class="form-control" value="'.$libro[1].'">
+                                <input type="text" name="titulo_libro" id="tituloInput" class="form-control" value="'.$libro[1].'">
+                                <div id="validez_titulo"></div>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Categoría</label>
@@ -78,7 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
                             echo '
                             <div class="mb-3 form-group">
                                 <label for="">ISBN</label>
-                                <input type="text" name="isbn_libro" id="isbn_libro" class="form-control" value="'.$libro[4].'">
+                                <input type="text" name="isbn_libro" id="isbn_libroInput" class="form-control" value="'.$libro[4].'">
+                                <div id="validez_isbn"></div>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Dewey</label>
@@ -97,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
                                     echo '<img src="../static/img/libros/'.$libro[6].'" height="280" width="200" alt="..." class="img-thumbnail">';
                                 }
                                 
-                                echo '<input type="file" style="display:none;" name="img_libro" id="img_libroInput" accept="image/png, image/jpeg, image/jpg" class="form-control" min="1" value="'.$libro[6].'">
+                                echo '<input type="file" style="display:none;" name="img_libro" id="img_libroInput" accept="image/png, image/jpeg, image/jpg" class="form-control" min="1">
                             </div>
                             <button type="button" class="btn btn-sm btn-primary" id="cambiar_imagen">Cambiar imagen</button>
                             <br><br>
@@ -105,13 +107,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
                                 <label for="">Stock</label>
                                 <input type="number" name="stock_libro" id="stock_libro" class="form-control" min="1" value="'.$libro[7].'">
                             </div>
+                            <!--
                             <div class="mb-3 form-group">
                                 <label for="">Estado del libro</label>
-                                <select class="form-control">
+                                <select class="form-control" disabled>
                                     <option>Disponible</option>
                                     <option>No disponible</option>
                                 </select>
                             </div>
+                            -->
                             <button type="submit" class="w-100 btn btn-lg btn-outline-primary">Actualizar libro</button>
                             <a type="button" href="dashboard.php" name="registro" class="w-100 btn btn-lg btn-outline-danger mt-2">Atrás</a>
                         </form>
@@ -132,7 +136,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
             </div>
         </footer>
     </div>
-    </div>
+    </div>';
+}
+}
+?>
     <script>
     const btn = document.getElementById("cambiar_imagen");
     btn.addEventListener("click", () => {
@@ -148,6 +155,83 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
 });
 
     </script>
+    <script>
+    var subject = document.getElementById("isbn_libroInput").value;
+    
+    document.getElementById("isbn_libroInput").addEventListener("change", iese);
+    function iese(){
+        var subject = document.getElementById("isbn_libroInput").value;
+        var validarISBN;
+        var regex = /^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$/;
+        if (regex.test(subject)) {
+            // Remove non ISBN digits, then split into an array
+            var chars = subject.replace(/[- ]|^ISBN(?:-1[03])?:?/g, "").split("");
+            // Remove the final ISBN digit from `chars`, and assign it to `last`
+            var last = chars.pop();
+            var sum = 0;
+            var check, i;
+
+            if (chars.length == 9) {
+                // Compute the ISBN-10 check digit
+                chars.reverse();
+                for (i = 0; i < chars.length; i++) {
+                    sum += (i + 2) * parseInt(chars[i], 10);
+                }
+                check = 11 - (sum % 11);
+                if (check == 10) {
+                    check = "X";
+                } else if (check == 11) {
+                    check = "0";
+                }
+            } 
+            else {
+                // Compute the ISBN-13 check digit
+                for (i = 0; i < chars.length; i++) {
+                    sum += (i % 2 * 2 + 1) * parseInt(chars[i], 10);
+                }
+                check = 10 - (sum % 10);
+                if (check == 10) {
+                    check = "0";
+                }
+            }
+
+            if (check == last) {
+                document.getElementById("validez_isbn").innerHTML = "<p>El ISB ingresado es válido</p>";
+                validarIBSN = true;
+                //alert("Valid ISBN");
+            } 
+            else {
+                document.getElementById("validez_isbn").innerHTML = "<p>El ISB ingresado es inválido</p>";
+                //alert("Invalid ISBN check digit");
+                validarIBSN = false;
+            }
+        } 
+        else {
+            document.getElementById("validez_isbn").innerHTML = "<p>El ISB ingresado es inválido</p>";
+            //alert("Invalid ISBN");
+            validarIBSN = false;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function(){
+        document.getElementById("formulario").addEventListener("submit", validarFormulario);
+    });
+    function validarFormulario(evento){
+        evento.preventDefault();
+        var titulo_libro = document.getElementById("tituloInput").value;
+        
+        if (titulo_libro.length == 0){
+            document.getElementById("validez_titulo").innerHTML = "<p>El título de libro no puede estar vacío</p>";
+            return;
+        }
+        if(validarIBSN == false){
+            document.getElementById("validez_isbn").innerHTML = "<p>El ISBN no puede ser inválido</p>";
+            return;
+        }
+        this.submit();
+
+    }
+</script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="../static/js/scripts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
@@ -155,11 +239,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET'){
     <script src="../assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="../static/js/datatables-simple-demo.js"></script>
-    <script src="../static/js/validar_editar.js"></script>
 </body>
 
 </html>
-        ';
-    }
-}
-?>
+
