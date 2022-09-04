@@ -1,26 +1,3 @@
-<?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once('../includes/functions.php');
-    if (
-        isset($_POST['titulo_libro']) && isset($_POST['id_categoria']) && isset($_POST['cantidad_libro']) && isset($_POST['isbn_libro'])) {
-        $id = $_POST['id'];
-        $nombre = $_POST['nombre'];
-        $a_paterno = $_POST['a_paterno'];
-        $a_materno = $_POST['a_materno'];
-        $correo = $_POST['correo'];
-        $direccion = $_POST['direccion'];
-        $fono = $_POST['fono'];
-
-        if (editar_libro($id_libro, $titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro) == 1) {
-
-            header('Location:listar_libros.php?msg=1');
-        } else {
-            header('Location:listar_vecinos.php?msg=2');
-        }
-    }
-}
-
-?>
 <?php include('partes/head.php') ?>
 
 <body class="sb-nav-fixed">
@@ -42,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <use xlink:href="#check-circle-fill" />
                         </svg>
                         <div>
-                            Vecino editado con éxito
+                            Libro actualizado con éxito
                         </div>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
