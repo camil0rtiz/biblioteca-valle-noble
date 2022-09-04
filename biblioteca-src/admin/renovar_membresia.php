@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if (renovar_membresia($id,$membresia) == 1) {
 
-            header('Location:dashboard.php');
+            header('Location:dashboard.php?mensaje=2');
         } else {
             header('Location:dashboard.php');
         }

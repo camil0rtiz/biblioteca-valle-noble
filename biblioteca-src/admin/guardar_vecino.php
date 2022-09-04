@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Correo</label>
-                                <input type="email" name="correo" id="correo" class="form-control">
+                                <input type="email" name="correo" id="correo" class="form-control" placeholder="example@gmail.com">
                                 <p id="email" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">

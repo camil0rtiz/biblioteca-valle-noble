@@ -139,7 +139,7 @@
                                         <p id="err" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="formFile" class="form-label">Subir comprobante de pago <small>(Tamaño máximo: <strong>280x200</strong>, formatos aceptados: <strong>jpg</strong>, <strong>jpeg</strong> y <strong>pdf</strong>)</small></label>
+                                        <label for="formFile" class="form-label">Subir comprobante de pago (formatos aceptados: <strong>jpg</strong>, <strong>jpeg</strong> y <strong>pdf</strong>)</small></label>
                                         <input class="form-control" name="imagen" type="file" id="formFile">
                                         <p id="compro" class="text-danger"> </p>
                                     </div>
@@ -163,7 +163,6 @@
         <script src="static/assets/demo/chart-area-demo.js"></script>
         <script src="static/assets/demo/chart-bar-demo.js"></script>
         <script src="static/js/validar_formulario.js"></script> -->
-        <!-- <script src="static/js/rut.js"></script> -->
         <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
         <script>
             $("#rut").on("keyup", function() {
@@ -200,18 +199,17 @@
                             } else if (datos.success == 1) {//membresia vencida
 
                                 $("#respuesta").html(datos.message);
-                                $("#nombre").attr("disabled", false);
-                                $("#nombre").attr('value', '');
-                                $("#a_paterno").attr("disabled", false);
-                                $("#a_materno").attr("disabled", false);
-                                $("#correo").attr("disabled", false);
-                                $("#direccion").attr("disabled", false);
-                                $("#fono").attr("disabled", false);
-                                $("#contrasena").attr("disabled", false);
-                                $("#confirmar_contrasena").attr("disabled", false);
-                                $("#formFile").attr("disabled", false);
-                                $("#id_membresia").attr("disabled", false);
-                                $("#registro").attr("disabled", false);
+                                $("#nombre").attr("disabled", true);
+                                $("#a_paterno").attr("disabled", true);
+                                $("#a_materno").attr("disabled", true);
+                                $("#correo").attr("disabled", true);
+                                $("#direccion").attr("disabled", true);
+                                $("#fono").attr("disabled", true);
+                                $("#contrasena").attr("disabled", true);
+                                $("#confirmar_contrasena").attr("disabled", true);
+                                $("#formFile").attr("disabled", true);
+                                $("#id_membresia").attr("disabled", true);
+                                $("#registro").attr("disabled", true);
 
                             } else if (datos.success == 2) {
                                 $("#respuesta").html(datos.message);

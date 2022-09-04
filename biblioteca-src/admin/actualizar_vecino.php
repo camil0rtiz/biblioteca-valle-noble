@@ -32,8 +32,9 @@ if (
     $a_pa = $_GET['ape_pa'];
     $a_ma = $_GET['ape_ma'];
     $direccion = $_GET['direc'];
-    $fono = $_GET['fono'];
+   
     $correo = $_GET['correo'];
+    $fono =intval($_GET['fono']);
 } else {
     header('Location:dashboard.php');
 }
@@ -84,7 +85,7 @@ if (
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Fono</label>
-                                <input type="text" name="fono" id="fono" class="form-control" min="1" value="<?php echo $fono ?>">
+                                <input type="number" name="fono" id="fono" class="form-control" min="1" value="<?php echo $fono ?>">
                                 <p id="fon" class="text-danger"> </p>
                             </div>
                             <button type="submit" name="registro" class="w-100 btn btn-lg btn-outline-primary">Actualizar registro</button>

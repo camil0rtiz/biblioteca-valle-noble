@@ -90,21 +90,21 @@
                         <h3>Si ya eres miembro, inicia sesión</h3>
                         <p class="lead"></p>
                         <div class="col">
-                            <label for="correo" class="form-label">Correo</label>
-                            <input type="email" class="form-control" id="correo" placeholder="vecino@dominio.cl" value="" required>
+                            <label for="correo" class="form-label" >Correo</label>
+                            <input type="email" class="form-control" id="correo" disabled placeholder="vecino@dominio.cl" value="" required>
                                 <div class="invalid-feedback">
-                                   Correo válido es requerido.
+                                    Correo válido es requerido.
                                 </div>
                         </div>
                         <br>
                         <div class="col">
-                            <label for="claves" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="clave" placeholder="" value="" required>
+                            <label for="claves" class="form-label" >Contraseña</label>
+                            <input type="password" class="form-control" disabled id="clave" placeholder="" value="" required>
                         </div>
 
                         <hr class="my-4">
                         <div>
-                            <a class="btn btn-md btn-primary" href="#" role="button" disabled>Iniciar sesión</a>
+                            <input type="button" class="btn btn-md btn-primary" disabled value="Iniciar sesión">
                         </div>
                     </div>
                 </div>

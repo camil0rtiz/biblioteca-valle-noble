@@ -319,9 +319,9 @@ function renovar_membresia($id,$id_membresia){
     $sql_query = "UPDATE usuario SET estado = ? WHERE id_usuario = ?";
     $stmt = $conn->prepare($sql_query);
     $stmt->bind_param('si', $estado,$id);
-    $sql_query2 = "UPDATE paga SET fecha_activacion = ?, fecha_vencimiento = ? WHERE id_usuario = ?";
+    $sql_query2 = "UPDATE paga SET fecha_pago = ?, fecha_activacion = ?, fecha_vencimiento = ? WHERE id_usuario = ?";
     $stmt2 = $conn->prepare($sql_query2);
-    $stmt2->bind_param('ssi', $fecha_activacion,$fecha_vencimiento,$id);
+    $stmt2->bind_param('sssi',$fecha_activacion,$fecha_activacion,$fecha_vencimiento,$id);
     $stmt->execute();
     $stmt2->execute();
     $stmt->close();
