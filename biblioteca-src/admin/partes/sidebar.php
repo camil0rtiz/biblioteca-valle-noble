@@ -27,8 +27,8 @@
                     </a>
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                            <a class="nav-link" href="#">Agregar Libro</a>
-                            <a class="nav-link" href="#">Listar Libros</a>
+                            <a class="nav-link" href="agregar_libro.php">Agregar Libro</a>
+                            <a class="nav-link" href="listar_libros.php">Listar Libros</a>
 
                         </nav>
                     </div>

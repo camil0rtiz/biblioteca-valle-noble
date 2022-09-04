@@ -4,7 +4,7 @@
 /*funcion para listar todo el catalogo de libros */
 function listar_libros(){
     include 'db.php';
-    $sql_query = "SELECT titulo_libro, autor_libro, dewey, isbn, stock, id_libro FROM libro;";
+    $sql_query = "SELECT titulo_libro, autor_libro, dewey, isbn, stock, id_libro, foto_portada FROM libro;";
     $stmt = $conn->prepare($sql_query);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -17,7 +17,7 @@ function listar_libros(){
 /* funcion para buscar libro segun la cadena de texto ingresada en el campo de busqueda */
 function buscar_libro($termino){
     include 'db.php';
-    $sql_query = "SELECT titulo_libro, autor_libro, stock FROM libro WHERE titulo_libro LIKE CONCAT('%',?,'%') ORDER BY stock DESC;";
+    $sql_query = "SELECT titulo_libro, autor_libro, stock, foto_portada FROM libro WHERE titulo_libro LIKE CONCAT('%',?,'%') ORDER BY stock DESC;";
     $stmt = $conn->prepare($sql_query);
     $stmt->bind_param('s', $termino);
     $stmt->execute();
@@ -36,7 +36,7 @@ function buscar_libro_by_id($id_libro){
     $stmt->bind_param('i', $id_libro);
     $stmt->execute();
     $result = $stmt->get_result();
-    $row = $result->fetch_all();
+    $row = $result->fetch_row();
     $stmt->close();
     $conn->close();
     return $row;
@@ -63,7 +63,7 @@ function listar_libros_by_categoria($cod_dewey, $titulo){
         return $todo_by_termino;// Retorna todos los libros
     }
     else {
-        $sql_query = "SELECT titulo_libro, autor_libro, stock FROM libro, tiene, categoria WHERE categoria.cod_dewey = ? AND categoria.cod_dewey = tiene.cod_dewey AND tiene.id_libro = libro.id_libro AND libro.titulo_libro LIKE CONCAT('%',?,'%');";
+        $sql_query = "SELECT titulo_libro, autor_libro, stock, foto_portada FROM libro, tiene, categoria WHERE categoria.cod_dewey = ? AND categoria.cod_dewey = tiene.cod_dewey AND tiene.id_libro = libro.id_libro AND libro.titulo_libro LIKE CONCAT('%',?,'%');";
         $stmt = $conn->prepare($sql_query);
         $stmt->bind_param('is', $cod_dewey, $titulo);
         $stmt->execute();
@@ -76,14 +76,34 @@ function listar_libros_by_categoria($cod_dewey, $titulo){
 }
 
 /* funcion para listar todos los libros segun categoria, sin buscarlos */
-function listar_todos_libros_categoria($cod_dewey){
+function listar_todos_libros_categoria($cod_dewey, $cat){
     include 'db.php';
-    $sql_query = "SELECT titulo_libro, autor_libro, stock FROM libro, tiene, categoria WHERE categoria.cod_dewey = ? AND categoria.cod_dewey = tiene.cod_dewey AND tiene.id_libro = libro.id_libro;";
-    $stmt = $conn->prepare($sql_query);
-    $stmt->bind_param('i', $cod_dewey);
+    if ($cat == -1){
+        $sql_query = "SELECT titulo_libro, autor_libro, stock, foto_portada FROM libro;";
+        $stmt = $conn->prepare($sql_query);
+    }
+    else{
+        $sql_query = "SELECT titulo_libro, autor_libro, stock, foto_portada FROM libro, tiene, categoria WHERE categoria.cod_dewey = ? AND categoria.cod_dewey = tiene.cod_dewey AND tiene.id_libro = libro.id_libro;";
+        $stmt = $conn->prepare($sql_query);
+        $stmt->bind_param('i', $cod_dewey);
+    }
     $stmt->execute();
     $result = $stmt->get_result();
     $row = $result->fetch_all();
+    $stmt->close();
+    $conn->close();
+    return $row;
+
+}
+
+function obtener_categoria_libro($id_libro){
+    include 'db.php';
+    $sql_query = "SELECT categoria.cod_dewey, categoria.nombre_categoria, libro.id_libro FROM libro, tiene, categoria WHERE categoria.cod_dewey = tiene.cod_dewey AND tiene.id_libro = libro.id_libro AND libro.id_libro = ?;";
+    $stmt = $conn->prepare($sql_query);
+    $stmt->bind_param('i', $id_libro);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_row();
     $stmt->close();
     $conn->close();
     return $row;
@@ -107,7 +127,7 @@ function registrar_vecino($rut, $nombre, $a_paterno, $a_materno, $correo, $direc
 
         if ($contador == 0 ){
             
-            $estado_vecino = htmlspecialchars($estado);
+            $estado_vecino = $estado;
             $id_rol = 1;
             $password = password_hash($contrasena,PASSWORD_DEFAULT);
             $fecha_actual = date('Y-m-d');
@@ -165,8 +185,6 @@ function registrar_vecino($rut, $nombre, $a_paterno, $a_materno, $correo, $direc
     }
 }
 
-//funcion para listar solo los vecino que este habilitados.
-
 function listar_vecinos(){
     include 'db.php';
     // $sql_query = "SELECT id_usuario, nombre, apellido_paterno, apellido_materno, rut, correo, telefono, direccion FROM usuario WHERE usuario.estado = 'habilitado'";
@@ -178,21 +196,17 @@ function listar_vecinos(){
     $row = $result->fetch_all(MYSQLI_ASSOC);
     $stmt->close();
     $conn->close();
-    return $row;;
+    return $row;
 }
-
-//funcion para editar vecino
 
 function editar_vecino($id, $nombre, $a_paterno, $a_materno, $correo, $direccion, $fono)
 {
 
-    $nombre = ucfirst(strtolower(htmlspecialchars($nombre, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8")));
-    $a_paterno = ucfirst(strtolower(htmlspecialchars($a_paterno, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8")));
-    $a_materno = ucfirst(strtolower(htmlspecialchars($a_materno, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8")));
-    $correo = strtolower(htmlspecialchars($correo, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8"));
-    $direccion = strip_tags($direccion);
-    
-    // $direccion = htmlspecialchars($direccion, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8");
+    $nombre = ucfirst(strtolower(htmlspecialchars($nombre)));
+    $a_paterno = ucfirst(strtolower(htmlspecialchars($a_paterno)));
+    $a_materno = ucfirst(strtolower(htmlspecialchars($a_materno)));
+    $correo = strtolower(htmlspecialchars($correo));
+    $direccion = htmlspecialchars($direccion);
     
     include 'db.php';
     $sql_query = "UPDATE usuario SET nombre = ? , apellido_paterno = ?, apellido_materno = ?, correo = ?, direccion = ?, telefono = ? WHERE id_usuario = ?";
@@ -202,8 +216,6 @@ function editar_vecino($id, $nombre, $a_paterno, $a_materno, $correo, $direccion
     $stmt->close();
     return 1;
 }
-
-//funcion para listar a vecinos que esten en estado pendiente (que se registro desde la página pero aún el adminitrador lo ha válidado)
 
 function listar_vecinos_pendientes(){
     include 'db.php';
@@ -217,8 +229,6 @@ function listar_vecinos_pendientes(){
     $conn->close();
     return $row;;
 }
-
-//funcion que cambia el estado del vecino de estado pendiente a habilitado, se activa cuando el administrador confirma que los datos bancarios del vecino esten bien
 
 function cambiar_estado_vecino($id,$id_membresia)
 {
@@ -248,8 +258,6 @@ function cambiar_estado_vecino($id,$id_membresia)
     return 1;
 }
 
-//funcion que utilizara el cron para cambiar de estado a vencido a vecino que expiro su membresia
-
 function membresia_vencida($id){
 
     include 'db.php';
@@ -264,38 +272,82 @@ function membresia_vencida($id){
 }
 
 
-function agregar_libro($titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro){
+function agregar_libro($titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $carpeta_destino ,$img_libro){
     include 'db.php';
+    $fecha = new DateTime();
+    $random_time = $fecha->getTimestamp();
+    $path_completo = $carpeta_destino.$random_time.'-'.$img_libro; // localizacion de la imagen de portada
+    $portada_libro = $random_time.'-'.$img_libro;
+    move_uploaded_file($_FILES['img_libro']['tmp_name'], $path_completo);
+    //echo var_dump($_FILES);
     $sql_query = "INSERT INTO libro(titulo_libro, autor_libro, isbn, stock, dewey, foto_portada) VALUES (?,?,?,?,?,?);";
+    $sql_query_relacion = "INSERT INTO tiene(cod_dewey, id_libro) VALUES (?,?);";
     $stmt = $conn->prepare($sql_query);
-    $stmt->bind_param('ssissss', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $img_libro);
+    $stmt_2 = $conn->prepare($sql_query_relacion);
+    $stmt->bind_param('ssssis', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $portada_libro);
+    
     $stmt->execute();
+    $last_id_libro = $stmt->insert_id;
+    $stmt_2->bind_param('ii', $id_categoria, $last_id_libro);
+    $stmt_2->execute();
     $stmt->close();
+    $stmt_2->close();
     $conn->close();
+    
     return 1;
 }
-
 function editar_libro($id_libro, $titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro){
-    include 'db.php';
-    $sql_query = "UPDATE libro SET titulo_libro = ?, autor_libro = ?, isbn = ?, stock = ?, dewey = ?, foto_portada = ? WHERE id_libro = ?;";
-    $stmt = $conn->prepare($sql_query);
-    $stmt->bind_param('sssisss', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $img_libro, $id_libro);
-    $stmt->execute();
-    $stmt->close();
-    $conn->close();
-    return 1;
+    if ($img_libro == '0'){
+        include 'db.php';
+        $sql_query = "UPDATE libro SET titulo_libro = ?, autor_libro = ?, isbn = ?, stock = ?, dewey = ? WHERE id_libro = ?;";
+        $sql_query_relacion = "UPDATE tiene SET cod_dewey = ? WHERE id_libro = ?;";
+        $stmt = $conn->prepare($sql_query);
+        $stmt_2 = $conn->prepare($sql_query_relacion);
+        $stmt_2->bind_param('ii', $id_categoria, $id_libro);
+        $stmt->bind_param('sssssi', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $id_libro);
+        $stmt->execute();
+        $stmt_2->execute();
+        $stmt->close();
+        $stmt_2->close();
+        $conn->close();
+        return 1;
+    }
+    else{
+        try {
+            include 'db.php';
+            $sql_query = "UPDATE libro SET titulo_libro = ?, autor_libro = ?, isbn = ?, stock = ?, dewey = ?, foto_portada = ? WHERE id_libro = ?;";
+            $sql_query_relacion = "UPDATE tiene SET cod_dewey = ? WHERE id_libro = ?;";            
+            $fecha = new DateTime();
+            $carpeta_destino = $_SERVER['DOCUMENT_ROOT'] . '/static/img/libros/';
+
+            $random_time = $fecha->getTimestamp();
+            $path_completo = $carpeta_destino.$random_time.'-'.$img_libro; // localizacion de la imagen de portada
+            $portada_libro = $random_time.'-'.$img_libro;
+            move_uploaded_file($_FILES['img_libro']['tmp_name'], $path_completo);
+            $stmt = $conn->prepare($sql_query);
+            $stmt->bind_param('sssisss', $titulo_libro, $autor_libro, $isbn_libro, $cantidad, $dewey_libro, $portada_libro, $id_libro);
+            $stmt->execute();
+            $stmt->close();
+            $stmt_2 = $conn->prepare($sql_query_relacion);
+            $stmt_2->bind_param('ii', $id_categoria, $id_libro);
+            $stmt_2->execute();
+            $stmt_2->close();
+            $conn->close();
+            return 1;
+        } catch (\Throwable $th) {
+            return 0;
+        }
+        
+    }
 }
 
-// funcion que lista a los vecinos que se les expiro su membresia
 
-function listar_vecinos_vencidos(){
+function agregar_ejemplar($id_libro, $cantidad, $isbn_libro, $dewey_libro){
     include 'db.php';
-    $sql_query = "SELECT u.id_usuario, u.nombre, u.apellido_paterno, u.apellido_materno, u.rut, p.id_membresia,p.fecha_vencimiento 
-    FROM usuario u , paga p where u.id_usuario = p.id_usuario and u.estado = 'vencido'";
+    $sql_query = "UPDATE libro SET stock += ? WHERE id = ?;";
     $stmt = $conn->prepare($sql_query);
+    $stmt->bind_param('ii', $cantidad, $id_libro);
     $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_all(MYSQLI_ASSOC);
     $stmt->close();
     $conn->close();
     return $row;;

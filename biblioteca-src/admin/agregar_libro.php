@@ -1,22 +1,27 @@
 <?php
-
+include '../includes/functions.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once('../includes/functions.php');
-    if (
-        isset($_POST['titulo_libro']) && isset($_POST['id_categoria']) && isset($_POST['cantidad_libro']) && isset($_POST['isbn_libro'])) {
-        $titulo_libro = $_POST['titulo_libro'];
-        $id_categoria = $_POST['id_categoria'];
-        $cantidad_libro = $_POST['cantidad_libro'];
-        $isbn_libro = $_POST['isbn_libro'];
-        $autor = $_POST['autor_libro'];
-        $img_libro = ""; //$_FILES['direccion'];
+    if (isset($_POST['titulo_libro']) && isset($_POST['id_categoria']) && isset($_POST['cantidad_libro']) && isset($_POST['isbn_libro']) && isset($_POST['dewey_libro'])
+    && isset($_POST['autor_libro'])) {
+        $titulo_libro = strip_tags($_POST['titulo_libro']);
+        $id_categoria = strip_tags($_POST['id_categoria']);
+        $cantidad_libro = strip_tags($_POST['cantidad_libro']);
+        $isbn_libro = strip_tags($_POST['isbn_libro']);
+        $dewey_libro = strip_tags($_POST['dewey_libro']);
+        $autor_libro = strip_tags($_POST['autor_libro']);
+        $img_libro = strip_tags($_FILES['img_libro']['name']); //$_FILES['direccion'];
+        $tamanio_img = $_FILES['img_libro']['size']; // tamaño en memoria
+        $formato_img = $_FILES['img_libro']['type'];
+        $carpeta_guardado = $_SERVER['DOCUMENT_ROOT'] . '/static/img/libros/';
 
-        if (agregar_libro($titulo_libro, $id_categoria, $cantidad, $isbn_libro, $dewey_libro, $autor_libro, $img_libro) == 1) {
-            header('Location: agregar_libro.php?msg=1');
-        } else {
-            header('Location: agregar_libro.php?msg=0');
+        $agregado = agregar_libro($titulo_libro, $id_categoria, $cantidad_libro, $isbn_libro, $dewey_libro, $autor_libro, $carpeta_guardado ,$img_libro);
+        if ($agregado == 1) {
+            header('Location: listar_libros.php?msg=1');
+            //echo "libro agregado con exito";
         }
-        
+        else {
+            header('Location: listar_libros.php?msg=0');
+        }
     }
 }
 ?>
@@ -68,30 +73,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         Registrar nuevo libro
                     </div>
                     <div class="card-body">
-                        <form action="" method="post" id="formMain">
+                        <form action="agregar_libro.php" method="post" id="formulario" enctype="multipart/form-data">
+                            
                             <div class="row mb-3 form-group">
-                                <div class="col-md-6">
-                                    <label for="">Título del nuevo libro (si este aún no existe en la base de datos)</label>
+                                <div class="col-md-12">
+                                    <label for="">Título del nuevo libro</label>
                                     <input type="text" name="titulo_libro" id="tituloInput" class="form-control" required>
+                                    <div id="validez_titulo"></div>
                                 </div> 
+                                <!--
                                 <div class="col-md-6">
                                     <label for="">Agregue un nuevo ejemplar a un libro existente</label>                         
                                     <select name="titulo_libro" id="listadoTitulo" class="form-control" required>
                                         <?php
-                                        include '../includes/functions.php';
+                                        /*
+                                        //include '../includes/functions.php';
                                         $libros = listar_libros();
                                         echo '<option value="0">Seleccione un libro</option>';
                                         foreach ($libros as $libro) {
-                                            echo '<option value="'.$libro[5].'">'.$libro[1].'</option>';
+                                            echo '<option value="'.$libro[5].'">'.$libro[0].'</option>';
                                         }
+                                        */
                                         ?>
                                     </select>
-                                </div>                            
+                                </div> 
+                                -->                           
                             </div>
                             <div class="row form-group">
                                 <div class="mb-3">
                                     <label for="">Categoría </label>
-                                    <select name="id_categoria" class="form-control" required>
+                                    <select name="id_categoria" class="form-control" id="categoria_libroInput" required>
                                         <?php
                                         //include '../includes/functions.php';
                                         $categorias = listar_categorias();
@@ -105,23 +116,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Cantidad</label>
-                                <input type="number" name="cantidad_libro" class="form-control" placeholder="1" required>
+                                <input type="number" name="cantidad_libro" id="cantidad_libroInput" min="1" max="99" class="form-control" placeholder="1" required>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">ISBN</label>
-                                <input type="text" name="isbn_libro" id="a_paterno" class="form-control" placeholder="Ej. 978-956-11-2987-0" required>
+                                <input type="text" name="isbn_libro" id="isbn_libroInput" class="form-control" placeholder="Ej. 978-956-11-2987-0" required>
+                                <div id="validez_isbn"></div>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Dewey (completo)</label>
-                                <input type="text" name="dewey_libro" id="a_paterno" class="form-control" placeholder="Ej. 978-956-11-2987-0" required>
+                                <input type="text" name="dewey_libro" id="dewey_libroInput" class="form-control" placeholder="Ej. 978-956-11-2987-0" required>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Autor</label>
-                                <input type="text" name="autor_libro" id="a_paterno" class="form-control" required>
+                                <input type="text" name="autor_libro" id="autor_libroInput" class="form-control" required>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Imagen de portada <small>(Tamaño máximo: <strong>280x200</strong>, formatos aceptados: <strong>jpg</strong>, <strong>jpeg</strong> y <strong>png</strong>)</small></label>
-                                <input type="file" name="img_libro" accept="image/png, image/jpeg, image/jpg" class="form-control" required>
+                                <input type="file" name="img_libro" id="img_libroInput" accept="image/png, image/jpeg, image/jpg" class="form-control" required>
                             </div>
                             <input type="hidden" value="habilitado" name="estado">
                             <button type="submit" name="registro" class="w-100 btn btn-lg btn-outline-primary">Registrar libro</button>
@@ -157,45 +169,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="../static/js/datatables-simple-demo.js"></script>
     <script src="../static/js/rut.js"></script>
     <script src="../static/js/validar_contrasenas.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('#search').focus()
-
-            $('#search').on('keyup', function(){
-                var search = $('#search').val()
-                $.ajax({
-                    type: 'POST',
-                    url: 'buscar_libro.php',
-                    data: {'search': search},
-                    beforeSend: function(){
-                        $('#result').html('<img src="img/pacman.gif">')
-                    }
-                })
-            .done(function(resultado){
-                $('#result').html(resultado)
-            })
-            .fail(function(){
-                alert('Hubo un error');
-            })
-            })
-    })
-    </script>
     <script type="text/javascript">
+        /*
         // Accedemos al botón
 var tituloInput = document.getElementById('tituloInput');
 var listadoTitulo = document.getElementById('listadoTitulo');
+var img_libroInput = document.getElementById('img_libroInput');
+var categoria_libroInput = document.getElementById('categoria_libroInput');
+var autor_libroInput = document.getElementById('autor_libroInput');
+
 
 // evento para el input radio del "si"
 document.getElementById('listadoTitulo').addEventListener('input', function() {
     if (this.value.length > 0){
         tituloInput.disabled = true;
-        //console.log('Vamos a habilitar el input text');
+        img_libroInput.disabled = true;
+        categoria_libroInput.disabled = true;
+        autor_libroInput.disabled = true;
     }
     if (this.value == 0){
         tituloInput.disabled = false;
+        img_libroInput.disabled = false;
+        categoria_libroInput.disabled = false;
+        autor_libroInput.disabled = false;
     }
     else {
         tituloInput.disabled = true;
+        img_libroInput.disabled = true;
+        categoria_libroInput.disabled = true;
+        autor_libroInput.disabled = true;
     }
   //console.log('Vamos a habilitar el input text');
 });
@@ -207,8 +209,87 @@ document.getElementById('tituloInput').addEventListener('input', function(){
     else {
         listadoTitulo.disabled = false;
     }
-})
+});*/
     </script>
+    <script>
+        var subject = document.getElementById("isbn_libroInput").value;
+        
+        document.getElementById('isbn_libroInput').addEventListener('change', iese);
+        function iese(){
+            var subject = document.getElementById("isbn_libroInput").value;
+            var validarISBN;
+            var regex = /^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$/;
+            if (regex.test(subject)) {
+                // Remove non ISBN digits, then split into an array
+                var chars = subject.replace(/[- ]|^ISBN(?:-1[03])?:?/g, "").split("");
+                // Remove the final ISBN digit from `chars`, and assign it to `last`
+                var last = chars.pop();
+                var sum = 0;
+                var check, i;
+
+                if (chars.length == 9) {
+                    // Compute the ISBN-10 check digit
+                    chars.reverse();
+                    for (i = 0; i < chars.length; i++) {
+                        sum += (i + 2) * parseInt(chars[i], 10);
+                    }
+                    check = 11 - (sum % 11);
+                    if (check == 10) {
+                        check = "X";
+                    } else if (check == 11) {
+                        check = "0";
+                    }
+                } 
+                else {
+                    // Compute the ISBN-13 check digit
+                    for (i = 0; i < chars.length; i++) {
+                        sum += (i % 2 * 2 + 1) * parseInt(chars[i], 10);
+                    }
+                    check = 10 - (sum % 10);
+                    if (check == 10) {
+                        check = "0";
+                    }
+                }
+
+                if (check == last) {
+                    document.getElementById("validez_isbn").innerHTML = "<p>El ISB ingresado es válido</p>";
+                    validarIBSN = true;
+                    //alert("Valid ISBN");
+                } 
+                else {
+                    document.getElementById("validez_isbn").innerHTML = "<p>El ISB ingresado es inválido</p>";
+                    //alert("Invalid ISBN check digit");
+                    validarIBSN = false;
+                }
+            } 
+            else {
+                document.getElementById("validez_isbn").innerHTML = "<p>El ISB ingresado es inválido</p>";
+                //alert("Invalid ISBN");
+                validarIBSN = false;
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function(){
+            document.getElementById("formulario").addEventListener('submit', validarFormulario);
+        });
+        function validarFormulario(evento){
+            evento.preventDefault();
+            var titulo_libro = document.getElementById("tituloInput").value;
+            
+            if (titulo_libro.length == 0){
+                document.getElementById("validez_titulo").innerHTML = "<p>El título de libro no puede estar vacío</p>";
+                return;
+            }
+            if(validarIBSN == false){
+                document.getElementById("validez_isbn").innerHTML = "<p>El ISBN no puede ser inválido</p>";
+                return;
+            }
+            this.submit();
+
+        }
+    </script>
+    
+
 </body>
 
 </html>
