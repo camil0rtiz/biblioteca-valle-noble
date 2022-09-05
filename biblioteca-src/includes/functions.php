@@ -407,3 +407,16 @@ function listar_vecinos_vencidos(){
         $conn->close();
         return $row;;
 }
+
+function get_categoria_by_id($id_cat){
+    include 'db.php';
+    $sql_query = "SELECT nombre_categoria FROM categoria WHERE cod_dewey = ?;";
+    $stmt = $conn->prepare($sql_query);
+    $stmt->bind_param('s', $id_cat);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_row();
+    $stmt->close();
+    $conn->close();
+    return $row;
+}

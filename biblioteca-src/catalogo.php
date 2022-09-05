@@ -157,7 +157,7 @@
                     include 'includes/functions.php';
                     $categorias = listar_categorias();
                     if (isset($_GET["titulo"]) && !isset($_GET["cat"])){
-                        $titulo = $_GET["titulo"];
+                        $titulo = strip_tags($_GET["titulo"]);
                         $libros = buscar_libro($titulo);
                     echo '
                         <div class="col-md-3 col-md-push-9">
@@ -182,7 +182,7 @@
                     
                     
                     echo '
-                        <p class="search-results-count">'.count($libros).' resultados encontrados</p>';
+                        <p class="search-results-count">'.count($libros).' resultados encontrados para el término <strong>'.$titulo.'</strong></p>';
                             foreach ($libros as $libro){
                                 //var_dump($libro);
                             echo '
@@ -212,15 +212,22 @@
                     }
                     // Otro if
                     if (isset($_GET["titulo"]) && isset($_GET["cat"]) && $_GET["cat"] != '' && $_GET["cat"] != ' '){
-                        $titulo = $_GET["titulo"];
+                        $titulo = strip_tags($_GET["titulo"]);
                         $cat = $_GET["cat"];
-                        $categorias = listar_categorias();
+                        $categoria_x_id = get_categoria_by_id($cat); // para listar nombre de categoria seleccionada
+                        $categorias = listar_categorias(); 
                         $libros = listar_libros_by_categoria(intval($cat), $titulo);
                     echo '
                         <div class="col-md-3 col-md-push-9">
                             <p class="text-muted fs-mini">Categorias:</p>
-                            <select class="form-select" aria-label="Default select example" onchange="location = this.value;">
-                                <option selected disabled hidden>Seleccione</option>
+                            <select class="form-select" aria-label="Default select example" onchange="location = this.value;">';
+                                if ($_GET['cat'] == -1){
+                                    echo '<option selected disabled hidden>Todas</option>';
+                                }
+                                else{
+                                    echo '<option selected disabled hidden>'.$categoria_x_id[0].'</option>';
+                                }
+                                echo '
                                 <option value="?cat=-1&titulo='.$titulo.'">Todas</option>
                                 ';
                                 foreach($categorias as $categoria){
@@ -239,7 +246,7 @@
                     
                     
                     echo '
-                        <p class="search-results-count">'.count($libros).' resultados encontrados</p>';
+                        <p class="search-results-count">'.count($libros).' resultados encontrados para el término <strong>'.$titulo.'</strong></p>';
                             foreach ($libros as $libro){
                             echo '
                             <section class="search-result-item">
@@ -320,13 +327,21 @@
                     }
 
                     if (isset($_GET['cat']) && !isset($_GET['titulo'])){
+                        $cat = $_GET['cat'];
+                        $categoria_x_id = get_categoria_by_id($cat); // para listar nombre de categoria seleccionada
                         $libros = listar_todos_libros_categoria($_GET['cat'], $_GET['cat']);
                       
                     echo '
                         <div class="col-md-3 col-md-push-9">
                             <p class="text-muted fs-mini">Categorias:</p>
-                            <select class="form-select" aria-label="Default select example" onchange="location = this.value;">
-                                <option selected disabled hidden select>Seleccione</option>
+                            <select class="form-select" aria-label="Default select example" onchange="location = this.value;">';
+                                if ($_GET['cat'] == -1){
+                                    echo '<option selected disabled hidden>Todas</option>';
+                                }
+                                else{
+                                    echo '<option selected disabled hidden>'.$categoria_x_id[0].'</option>';
+                                }
+                            echo '    
                                 <option value="?cat=-1">Todas</option>
                                 ';
                                 foreach($categorias as $categoria){
