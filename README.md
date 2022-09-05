@@ -1,18 +1,14 @@
- ~~Nombre del Proyecto~~
+Sistema de apoyo a la administración de los recursos disponibles de una institución
 
 ~~Descripción del proyecto..., que resuelve, que hace, a que publico está dirigido, características del sistema, etc~~
 
 ## Software stack
 El proyecto biblioteca-valle-noble es una aplicación web que corre sobre el siguiente software:
 
-- ~~Debian GNU/Linux 10 Buster - Debian GNU/Linux 9 Jessie - Ubuntu 20.04 - Ubuntu 19.10~~
-- ~~Apache 2.4.38~~
-- ~~Nginx 1.14.2~~
-- ~~PHP 7.3 (ext: curl, gd, mbstring, mysql, pgsql, xml, zip)~~
-- ~~Ruby 2.5~~
-- ~~Python 3.7.3~~
-- ~~NodeJS 13.11.0~~
-- ~~Base de Datos MySQL 5 - PostgreSQL 11~~
+- Debian GNU/Linux 10 Buster
+- Apache 2.4.38
+- PHP 7.3 (ext: curl, gd, mbstring, mysql, pgsql, xml, zip)~~
+- Base de Datos MySQL 5
 
 ## Configuraciones de Ejecución para Entorno de Desarrollo/Produccción
 
