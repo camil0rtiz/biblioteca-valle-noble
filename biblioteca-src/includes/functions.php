@@ -341,7 +341,7 @@ function editar_libro($id_libro, $titulo_libro, $id_categoria, $cantidad, $isbn_
     }
 }
 
-
+/*
 function agregar_ejemplar($id_libro, $cantidad, $isbn_libro, $dewey_libro){
     include 'db.php';
     $sql_query = "UPDATE libro SET stock += ? WHERE id = ?;";
@@ -352,6 +352,7 @@ function agregar_ejemplar($id_libro, $cantidad, $isbn_libro, $dewey_libro){
     $conn->close();
     return $row;;
 }
+*/
 
 //funcion que cambia el estado 
 
@@ -391,4 +392,18 @@ function deshabilitar_vecino($id){
     $stmt->execute();
     $stmt->close();
     return 1;
+}
+
+function listar_vecinos_vencidos(){
+    
+        include 'db.php';
+        $sql_query = "SELECT u.id_usuario, u.nombre, u.apellido_paterno, u.apellido_materno, u.rut, p.id_membresia,p.fecha_vencimiento 
+        FROM usuario u , paga p where u.id_usuario = p.id_usuario and u.estado = 'vencido'";
+        $stmt = $conn->prepare($sql_query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        $conn->close();
+        return $row;;
 }
