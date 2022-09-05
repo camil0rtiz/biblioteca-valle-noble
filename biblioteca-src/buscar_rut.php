@@ -21,12 +21,12 @@ $vecino = mysqli_fetch_all($query, MYSQLI_ASSOC);
     //Si hay datos entonces retornas algo
     $jsonData['success'] = 1;
     $jsonData['vecino'] = $vecino[0];
-    $jsonData['message'] = '<p style="color:red;">Esta cuenta esta vencida <strong>(' .$rut.')<strong></p>';
+    $jsonData['message'] = '<p style="color:red;">Ésta cuenta está vencida <strong>(' .$rut.')<strong></p>';
   }
   else if($vecino[0]['estado'] == 'habilitado'){
 
     $jsonData['success'] = 2;
-    $jsonData['message'] = '<p style="color:red;">Esta cuenta, aún está vigente <strong>(' .$rut.')<strong></p>';
+    $jsonData['message'] = '<p style="color:red;">Ésta cuenta, aún está vigente <strong>(' .$rut.')<strong></p>';
 
   }else if($vecino[0]['estado'] == 'pendiente'){
 

@@ -64,23 +64,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <form action="" method="post" id="form">
                             <div class="mb-3 form-group">
                                 <label for="">Rut</label>
-                                <input type="text" name="rut" id="rut" class="form-control" maxlength="10">
+                                <input type="text" name="rut" id="rut" placeholder="Ingrese su rut sin puntos y sin guión" class="form-control" maxlength="10">
                                 <p id="respuesta" class="text-danger"> </p>
                                 <p id="cedula" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Nombre</label>
-                                <input type="text" name="nombre" id="nombre" class="form-control">
+                                <input type="text" name="nombre" id="nombre" placeholder="Ingrese nombre" class="form-control">
                                 <p id="nom" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Apellido Paterno</label>
-                                <input type="text" name="a_paterno" id="a_paterno" class="form-control">
+                                <input type="text" name="a_paterno" id="a_paterno" placeholder="Ingrese primer apellido" class="form-control">
                                 <p id="p_apellido" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Apellido Materno</label>
-                                <input type="text" name="a_materno" id="a_materno" class="form-control">
+                                <input type="text" name="a_materno" id="a_materno" placeholder="Ingrese segundo apellido" class="form-control">
                                 <p id="s_apellido" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
@@ -90,22 +90,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Dirección</label>
-                                <input type="text" name="direccion" id="direccion" class="form-control">
+                                <input type="text" name="direccion" id="direccion" placeholder="Ejem: dirección #xxxx " class="form-control">
                                 <p id="direc" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Fono</label>
-                                <input type="number" name="fono" id="fono" class="form-control" min="1">
+                                <input type="number" name="fono" id="fono" placeholder="Ingrese número con 9 dígitos" class="form-control" min="1">
                                 <p id="fon" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Contraseña</label>
-                                <input type="password" name="contrasena" id="contrasena" class="form-control">
+                                <input type="password" name="contrasena" id="contrasena" placeholder="Ingrese contraseña con mínimo 8 caracteres" class="form-control">
                                 <p id="contra" class="text-danger"> </p>
                             </div>
                             <div class="mb-3 form-group">
                                 <label for="">Confirmar contraseña</label>
-                                <input type="password" id="confirmar_contrasena" class="form-control">
+                                <input type="password" id="confirmar_contrasena" placeholder="Confirme contraseña" class="form-control">
                                 <p id="err" class="text-danger"> </p>
                             </div>
                             <p> Seleccione plan de membresía</p>
