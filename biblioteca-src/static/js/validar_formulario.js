@@ -247,7 +247,7 @@ const validarInput = (text) =>{
 
 const validarExtension = archivo => {
 
-    const extPermitidas = /.(jpeg|jpg|pdf)$/i;
+    const extPermitidas = /.(jpeg|jpg)$/i;
 
     if(!extPermitidas.exec(archivo)){
         console.log('hola');

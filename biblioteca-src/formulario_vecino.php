@@ -139,7 +139,7 @@
                                         <p id="err" class="text-danger"> </p>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="formFile" class="form-label">Subir comprobante de pago (formatos aceptados: <strong>jpg</strong>, <strong>jpeg</strong> y <strong>pdf</strong>)</small></label>
+                                        <label for="formFile" class="form-label">Subir comprobante de pago (formatos aceptados: <strong>jpg</strong> y <strong>jpeg</strong>)</small></label>
                                         <input class="form-control" name="imagen" type="file" id="formFile">
                                         <p id="compro" class="text-danger"> </p>
                                     </div>
