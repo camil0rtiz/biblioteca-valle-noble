@@ -1,14 +1,9 @@
 <?php
 
-$userdb = 'G21taller';
-$passdb = 'G21taller1052';
-$dbname = 'G21taller_bd';
-$host = 'mysqltrans.face.ubiobio.cl';
-
-// $userdb = 'root';
-// $passdb = 'camilo';
-// $dbname = 'biblioteca';
-// $host = 'host.docker.internal';
+$userdb = '';
+$passdb = '';
+$dbname = '';
+$host = '';
 
 $conn = new mysqli($host, $userdb, $passdb, $dbname);
 $conn->set_charset("utf8"); // Se setea default_charset para la base de datos
