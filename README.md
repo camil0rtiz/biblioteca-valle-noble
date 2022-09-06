@@ -7,19 +7,23 @@ El proyecto biblioteca-valle-noble es una aplicación web que corre sobre el sig
 
 - Debian GNU/Linux 10 Buster
 - Apache 2.4.38
-- PHP 7.3 (ext: curl, gd, mbstring, mysql, pgsql, xml, zip)~~
-- Base de Datos MySQL 5
+- PHP 7.3 (ext: mysqli)
+- Base de Datos MySQL 8.0.28
 
 ## Configuraciones de Ejecución para Entorno de Desarrollo/Produccción
+Para ejecutar la aplicación web es necesario instalar **git**:
+###Ubuntu (o distribuciones basadas en Debian)
 
-~~Indicar instrucciones de como obtener una copia del proyecto para ejecutarlo localmente.~~
+`sudo apt-get install git`
+
+Después de haber instalado git, procede a cambiar al directorio raíz por defecto del servidor web
 
 ### Credenciales de Base de Datos y variables de ambiente
 - Editar el archivo `src/env.php`
 - **IMPORTANTE**: Por razones de Seguridad **NUNCA** debes guardar las credenciales y subirlas al repositorio
 
 
-### ~~Docker, Máquina Virtual, Sistema Operativa~~
+### Docker, Máquina Virtual, Sistema Operativa
 Con una terminal situarse dentro del directorio raiz donde fue clonado este repositorio, por ej: `~/git/mi-proyecto/`.
 Una vez situado en la raiz del proyecto, dirigirse al directorio `docker` y ejecutar lo siguiente para construir la imagen docker:
 
