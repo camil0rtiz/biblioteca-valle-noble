@@ -32,7 +32,7 @@ Ya situado en la carpeta, se debe clonar el repositorio
 
 ### Credenciales de Base de Datos y variables de ambiente
 
-Para correr de manera correcta el proyecto, es necesario crear la base de datos en un servidor MySQL local o de su preferencia. Luego de eso, se debe importar el archivo `llamado bd.sql` que va incluído en la raíz del proyecto, ya que contiene el esquema y algunos datos insertados a manera de ejemplo
+Para correr de manera correcta el proyecto, es necesario crear la base de datos en un servidor MySQL local o de su preferencia. Luego de eso, se debe importar el archivo llamado bd.sql` que va incluído en la raíz del proyecto, ya que contiene el esquema y algunos datos insertados a manera de ejemplo
 
 Después de importar la base de datos, se debe editar el archivo `biblioteca-src/includes/db.php` 
 
@@ -67,6 +67,8 @@ Ir a un navegador web y ejecutar la siguiente url [biblioteca-valle-noble](http:
 ## Construido con
 
 - [PHP](https://php.net/) - Lenguaje utilizado para desarrollar la aplicación web
+- JavaScript - Lenguaje de programación
+- HTML5
 - [Bootstrap 5](https://getbootstrap.com/) - Framework CSS
 - [AdminLTE Bootstrap](https://adminlte.io/) - Plantilla de panel de administraci
 
