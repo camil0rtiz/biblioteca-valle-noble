@@ -22,11 +22,11 @@ Después de haber instalado git, puedes crear una carpeta en la que clonarás el
 
 Recuerda que en "tu_usuario" debes escribir el nombre del usuario que estás utilizando.
 
-Después de haber creado la carpeta del proyecto, se debe situar en la carpeta
+Después de haber creado la carpeta del proyecto, se debe situar en la carpeta:
 
 `cd /home/tu_usuario/git`
 
-Ya situado en la carpeta raíz del servidor Web, clonar el repositorio
+Ya situado en la carpeta, se debe clonar el repositorio
 
 `git clone https://github.com/camil0rtiz/biblioteca-valle-noble.git`
 
