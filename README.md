@@ -1,6 +1,6 @@
-Sistema de apoyo a la administración de los recursos disponibles de una institución
+# biblioteca-valle-noble
 
-~~Descripción del proyecto..., que resuelve, que hace, a que publico está dirigido, características del sistema, etc~~
+Sistema de apoyo a la administración de los recursos disponibles de una institución.
 
 ## Software stack
 El proyecto biblioteca-valle-noble es una aplicación web que corre sobre el siguiente software:
@@ -73,15 +73,9 @@ Ir a un navegador web y ejecutar la siguiente url [biblioteca-valle-noble](http:
 
 ## Licencia
 
-Este proyecto fue construido con la licencia AAA, - ver [LICENSE.md](LICENSE.md) para mayor información
+Este proyecto fue construido con la licencia GPL v3, - ver [LICENSE.md](LICENSE.md) para mayor información
 
 
 ## Contribuir al Proyecto
 
 - Por favor lea las instrucciones para contribuir al proyecto en [CONTRIBUTING.md](CONTRIBUTING.md)
-
-## Agradecimientos
-
-- Basado en el código de .....
-- etc
-
